@@ -61,23 +61,18 @@
         android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
+    <!-- ✅ Fixed: CardFragment now properly declared -->
     <fragment
-        android:id="@+id/cardsFragment"
+        android:id="@+id/cardFragment"
         android:name="com.example.saadpay.presentation.ui.main.card.CardFragment"
         android:label="Cards"
-        tools:layout="@layout/fragment_card" />
+        tools:layout="@layout/fragment_cards" />
 
     <fragment
         android:id="@+id/transactionsFragment"
-        android:name="com.example.saadpay.presentation.ui.transaction.TransactionFragment"
+        android:name="com.example.saadpay.presentation.ui.main.transaction.TransactionFragment"
         android:label="Transactions"
         tools:layout="@layout/fragment_transaction" />
-
-    <fragment
-        android:id="@+id/transactionHistoryFragment"
-        android:name="com.example.saadpay.presentation.ui.main.transaction.TransactionHistoryFragment"
-        android:label="Transaction History"
-        tools:layout="@layout/fragment_transaction_history" />
 
     <fragment
         android:id="@+id/sendMoneyFragment"
@@ -96,5 +91,4 @@
         android:name="com.example.saadpay.presentation.ui.main.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
-
 </navigation>

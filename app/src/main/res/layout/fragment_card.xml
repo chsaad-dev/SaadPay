@@ -1,77 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scrollView"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="@color/white">
+    tools:context=".presentation.ui.main.card.CardFragment">
 
+    <!-- Top Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/cardToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:backgroundTint="?attr/colorPrimary"
+        android:title="Cards"
+        android:titleTextColor="@android:color/white"
+        android:elevation="4dp"
+        app:titleCentered="true"
+        app:navigationIconTint="@android:color/white" />
+
+    <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingTop="32dp">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:padding="16dp"
+        android:background="@color/md_theme_background">
 
-        <!-- Card Preview -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
+        <!-- Card ViewPager -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/cardViewPager"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginBottom="32dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="@color/primaryColor">
+            android:layout_height="250dp"
+            android:layout_marginTop="8dp" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="20dp">
-
-                <TextView
-                    android:id="@+id/cardNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="**** **** **** 1234"
-                    android:textSize="20sp"
-                    android:textColor="@android:color/white"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_medium" />
-
-                <TextView
-                    android:id="@+id/cardHolderName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Saad Ali"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
-                    android:fontFamily="@font/roboto_regular" />
-
-                <TextView
-                    android:id="@+id/expiryDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="12/27"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/roboto_regular" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Placeholder -->
-        <TextView
+        <!-- Tab Indicators -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/cardTabLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Coming soon..."
-            android:textColor="@color/gray"
-            android:textSize="16sp"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/roboto_medium" />
+            app:tabIndicatorColor="@color/primaryColor"
+            app:tabSelectedTextColor="@color/primaryColor"
+            app:tabTextColor="@android:color/darker_gray"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorGravity="center" />
 
+        <!-- Enhanced Switches -->
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchWithdraw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable Withdraw"
+            android:layout_marginTop="24dp"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            app:thumbTint="@color/primaryColor"
+            app:trackTint="@color/md_theme_secondaryContainer" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchInternational"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable International Transactions"
+            android:layout_marginTop="16dp"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            app:thumbTint="@color/primaryColor"
+            app:trackTint="@color/md_theme_secondaryContainer" />
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

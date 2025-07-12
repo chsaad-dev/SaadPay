@@ -3,11 +3,12 @@ package com.example.saadpay.data.repository
 import android.util.Log
 import com.example.saadpay.domain.model.Transaction
 import com.example.saadpay.data.model.User
-import com.example.saadpay.domain.model.Card
+import com.example.saadpay.domain.model.CardModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
+import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class FirestoreRepository {
@@ -15,9 +16,7 @@ class FirestoreRepository {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
-    fun getCurrentUserId(): String? {
-        return auth.currentUser?.uid
-    }
+    fun getCurrentUserId(): String? = auth.currentUser?.uid
 
     fun getUserByEmail(email: String, onResult: (User?, Exception?) -> Unit) {
         db.collection("users")
@@ -53,14 +52,10 @@ class FirestoreRepository {
             .addOnFailureListener { onResult(false) }
     }
 
-    fun sendMoney(
-        receiverEmail: String,
-        amount: Double,
-        onResult: (Boolean, String) -> Unit
-    ) {
+    fun sendMoney(receiverEmail: String, amount: Double, onResult: (Boolean, String) -> Unit) {
         val senderId = getCurrentUserId() ?: return
 
-        getUserByEmail(receiverEmail) { receiverUser, error ->
+        getUserByEmail(receiverEmail) { receiverUser, _ ->
             if (receiverUser == null || receiverUser.uid == senderId) {
                 onResult(false, "Invalid recipient")
                 return@getUserByEmail
@@ -78,11 +73,9 @@ class FirestoreRepository {
 
                 if (senderBalance < amount) throw Exception("Insufficient balance")
 
-                // Update balances
                 transaction.update(senderRef, "balance", senderBalance - amount)
                 transaction.update(receiverRef, "balance", receiverBalance + amount)
 
-                // Save transaction
                 val txnId = UUID.randomUUID().toString()
                 val transactionData = Transaction(
                     id = txnId,
@@ -122,7 +115,6 @@ class FirestoreRepository {
             val newBalance = currentBalance + amount
             transaction.update(userRef, "balance", newBalance)
 
-            // Save transaction
             val txnId = UUID.randomUUID().toString()
             val txn = Transaction(
                 id = txnId,
@@ -152,26 +144,21 @@ class FirestoreRepository {
     }
 
     fun fetchTransactionsForCurrentUser(onResult: (List<Transaction>) -> Unit) {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val uid = getCurrentUserId()
         if (uid == null) {
             Log.e("FirestoreRepository", "fetchTransactionsForCurrentUser: UID is null")
             onResult(emptyList())
             return
         }
 
-        Log.d("FirestoreRepository", "Fetching transactions for UID: $uid")
-
-        FirebaseFirestore.getInstance().collection("transactions")
+        db.collection("transactions")
             .whereArrayContains("participants", uid)
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { snapshot ->
-                Log.d("FirestoreRepository", "Fetched ${snapshot.documents.size} transactions")
-                val txns = snapshot.documents.mapNotNull { doc ->
+                val txns = snapshot.documents.mapNotNull {
                     try {
-                        val txn = doc.toObject(Transaction::class.java)
-                        Log.d("FirestoreRepository", "Parsed transaction: $txn")
-                        txn
+                        it.toObject(Transaction::class.java)
                     } catch (e: Exception) {
                         Log.e("FirestoreRepository", "Error parsing transaction: ${e.message}")
                         null
@@ -185,22 +172,43 @@ class FirestoreRepository {
             }
     }
 
+    suspend fun getUserTransactions(userId: String): List<Transaction> {
+        return try {
+            val sentSnapshot = db.collection("transactions")
+                .whereEqualTo("senderId", userId)
+                .get()
+                .await()
+
+            val receivedSnapshot = db.collection("transactions")
+                .whereEqualTo("receiverId", userId)
+                .get()
+                .await()
+
+            val sentTransactions = sentSnapshot.toObjects(Transaction::class.java)
+            val receivedTransactions = receivedSnapshot.toObjects(Transaction::class.java)
+
+            (sentTransactions + receivedTransactions).sortedByDescending { it.timestamp }
+        } catch (e: Exception) {
+            Log.e("FirestoreRepository", "Error in getUserTransactions: ${e.message}")
+            emptyList()
+        }
+    }
+
     fun getTransactionHistory(callback: (List<Transaction>, Exception?) -> Unit) {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val uid = getCurrentUserId()
         if (uid == null) {
-            Log.e("FirestoreRepository", "getTransactionHistory: UID is null")
             callback(emptyList(), Exception("User not logged in"))
             return
         }
 
-        FirebaseFirestore.getInstance().collection("transactions")
+        db.collection("transactions")
             .whereArrayContains("participants", uid)
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { snapshot ->
-                val txns = snapshot.documents.mapNotNull { doc ->
+                val txns = snapshot.documents.mapNotNull {
                     try {
-                        doc.toObject(Transaction::class.java)
+                        it.toObject(Transaction::class.java)
                     } catch (e: Exception) {
                         Log.e("FirestoreRepository", "Error parsing transaction: ${e.message}")
                         null
@@ -209,35 +217,40 @@ class FirestoreRepository {
                 callback(txns, null)
             }
             .addOnFailureListener { e ->
-                Log.e("FirestoreRepository", "Failed to fetch transactions: ${e.message}")
                 callback(emptyList(), e)
             }
     }
 
+    // ------------------ CARD METHODS --------------------
 
-
-    fun getUserCard(userId: String, onResult: (Card?) -> Unit) {
-        firestore.collection("cards")
+    fun getUserCard(userId: String, onResult: (CardModel?) -> Unit) {
+        db.collection("cards")
             .document(userId)
             .get()
             .addOnSuccessListener { doc ->
-                if (doc.exists()) {
-                    val card = doc.toObject(Card::class.java)
-                    onResult(card)
-                } else {
-                    onResult(null)
-                }
+                val card = doc.toObject(CardModel::class.java)
+                onResult(card)
             }
             .addOnFailureListener {
                 onResult(null)
             }
     }
 
+    fun updateUserCard(userId: String, card: CardModel, onResult: (Boolean) -> Unit) {
+        db.collection("cards").document(userId)
+            .set(card)
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener {
+                Log.e("FirestoreRepository", "Error updating card: ${it.message}")
+                onResult(false)
+            }
+    }
 
+    // ------------------ USER LISTENER --------------------
 
     fun listenToCurrentUser(onUserUpdate: (User?) -> Unit): ListenerRegistration? {
-        val currentUser = FirebaseAuth.getInstance().currentUser ?: return null
-        val docRef = FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
+        val currentUser = auth.currentUser ?: return null
+        val docRef = db.collection("users").document(currentUser.uid)
         return docRef.addSnapshotListener { snapshot, _ ->
             if (snapshot != null && snapshot.exists()) {
                 val user = snapshot.toObject(User::class.java)
@@ -251,6 +264,4 @@ class FirestoreRepository {
     fun removeListener(listenerRegistration: ListenerRegistration?) {
         listenerRegistration?.remove()
     }
-
-
 }

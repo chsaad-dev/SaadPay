@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.saadpay.databinding.ActivityLoginBinding
-import com.example.saadpay.presentation.ui.main.home.DashboardFragment
 import com.example.saadpay.presentation.ui.register.RegisterActivity
 import com.example.saadpay.presentation.viewmodel.LoginViewModel
 
@@ -36,10 +35,11 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.loginSuccess.observe(this) { success ->
             if (success) {
-                startActivity(Intent(this, DashboardFragment::class.java))
+                startActivity(Intent(this, com.example.saadpay.presentation.ui.main.MainActivity::class.java)) // ✅ FIXED
                 finish()
             }
         }
+
 
         viewModel.errorMessage.observe(this) { msg ->
             msg?.let {

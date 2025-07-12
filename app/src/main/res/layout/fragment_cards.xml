@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="?android:attr/windowBackground">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/cardsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cards"
+        android:textAppearance="?attr/textAppearanceHeadlineMedium"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- ViewPager for swipeable cards -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/cardViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Card settings -->
+    <LinearLayout
+        android:id="@+id/settingsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchWithdraw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable Withdraw" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchInternational"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable International Transactions"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+</LinearLayout>

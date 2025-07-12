@@ -3,9 +3,11 @@ package com.example.saadpay.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.saadpay.domain.model.Transaction
 import com.example.saadpay.data.repository.FirestoreRepository
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TransactionHistoryViewModel : ViewModel() {
 
@@ -18,9 +20,10 @@ class TransactionHistoryViewModel : ViewModel() {
     val error: LiveData<String?> get() = _error
 
     fun fetchTransactions() {
-        repository.fetchTransactionsForCurrentUser { list ->
-            _transactions.value = list
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.fetchTransactionsForCurrentUser { list ->
+                _transactions.postValue(list)
+            }
         }
     }
 }
-

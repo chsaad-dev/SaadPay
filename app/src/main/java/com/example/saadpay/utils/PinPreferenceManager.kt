@@ -9,9 +9,9 @@ class PinPreferenceManager(context: Context) {
     companion object {
         private const val PREF_FILE = "pin_prefs"
         private const val KEY_PIN = "user_pin"
+        private const val KEY_BIOMETRIC_ENABLED = "biometric_enabled"
     }
 
-    // Modern MasterKey API (replacement for deprecated MasterKeys)
     private val masterKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
         .build()
@@ -38,5 +38,14 @@ class PinPreferenceManager(context: Context) {
 
     fun clearPin() {
         prefs.edit().remove(KEY_PIN).apply()
+    }
+
+    // ✅ NEW: Biometric toggle handling
+    fun setBiometricEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_BIOMETRIC_ENABLED, enabled).apply()
+    }
+
+    fun isBiometricEnabled(): Boolean {
+        return prefs.getBoolean(KEY_BIOMETRIC_ENABLED, true) // default: true
     }
 }
