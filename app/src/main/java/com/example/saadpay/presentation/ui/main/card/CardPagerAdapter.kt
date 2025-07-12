@@ -1,7 +1,5 @@
 package com.example.saadpay.presentation.ui.main.card
 
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,14 +24,15 @@ class CardPagerAdapter(
 
         fun bind(card: CardModel, position: Int) {
             cardType.text = card.type
-            userName.text = card.userName.uppercase()
 
             if (card.isVisible) {
+                userName.text = card.userName
                 cardNumber.text = card.cardNumber
                 expiry.text = "Expiry: ${card.expiry}"
                 cvv.text = "CVV: ${card.cvv}"
                 eyeIcon.setImageResource(R.drawable.ic_eye_open)
             } else {
+                userName.text = "SaadPay User"
                 cardNumber.text = "•••• •••• •••• ••••"
                 expiry.text = "Expiry: ••/••"
                 cvv.text = "CVV: •••"

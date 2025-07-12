@@ -22,32 +22,41 @@ class CardFragment : Fragment() {
     private val autoHideHandler = Handler(Looper.getMainLooper())
     private var hideRunnable: Runnable? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentCardsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val userName = FirebaseAuth.getInstance().currentUser?.displayName?.takeIf { it.isNotBlank() } ?: "SaadPay User"
+        FirebaseAuth.getInstance().currentUser?.reload()?.addOnCompleteListener {
+            val firebaseUser = FirebaseAuth.getInstance().currentUser
+            val userName = firebaseUser?.displayName?.takeIf { it.isNotBlank() }
+                ?: firebaseUser?.email?.substringBefore("@")?.replaceFirstChar { it.uppercase() }
+                ?: "SaadPay User"
 
-        cards.add(CardModel("Virtual", userName))
-        cards.add(CardModel("Physical", userName))
+            cards.add(CardModel("Virtual", userName))
+            cards.add(CardModel("Physical", userName))
 
-        adapter = CardPagerAdapter(cards) { position, isVisible ->
-            cards[position].isVisible = isVisible
-            adapter.notifyItemChanged(position)
+            adapter = CardPagerAdapter(cards) { position, isVisible ->
+                cards[position].isVisible = isVisible
+                adapter.notifyItemChanged(position)
 
-            if (isVisible) {
-                hideRunnable?.let { autoHideHandler.removeCallbacks(it) }
-                hideRunnable = Runnable {
-                    cards[position].isVisible = false
-                    adapter.notifyItemChanged(position)
+                if (isVisible) {
+                    hideRunnable?.let { autoHideHandler.removeCallbacks(it) }
+                    hideRunnable = Runnable {
+                        cards[position].isVisible = false
+                        adapter.notifyItemChanged(position)
+                    }
+                    autoHideHandler.postDelayed(hideRunnable!!, 10_000)
                 }
-                autoHideHandler.postDelayed(hideRunnable!!, 10_000)
             }
-        }
 
-        binding.cardViewPager.adapter = adapter
+            binding.cardViewPager.adapter = adapter
+        }
 
         binding.switchWithdraw.setOnCheckedChangeListener { _, isChecked -> }
         binding.switchInternational.setOnCheckedChangeListener { _, isChecked -> }

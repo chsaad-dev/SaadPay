@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- item_card.xml -->
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -35,37 +35,37 @@
             android:src="@drawable/ic_eye_closed"
             app:tint="@android:color/white" />
 
-        <!-- Card Number -->
+        <!-- Cardholder Name (moved above cardNumber) -->
         <TextView
-            android:id="@+id/cardNumber"
+            android:id="@+id/cardUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cardType"
             android:layout_marginTop="30dp"
+            android:text="SAADPAY USER"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <!-- Card Number (moved below userName) -->
+        <TextView
+            android:id="@+id/cardNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardUserName"
+            android:layout_marginTop="18dp"
             android:text="**** **** **** 1234"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:letterSpacing="0.1" />
 
-        <!-- Cardholder Name -->
-        <TextView
-            android:id="@+id/cardUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cardNumber"
-            android:layout_marginTop="18dp"
-            android:text="SAADPAY USER"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
-
         <!-- Expiry -->
         <TextView
             android:id="@+id/cardExpiry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cardUserName"
+            android:layout_below="@id/cardNumber"
             android:layout_alignParentStart="true"
             android:layout_marginTop="12dp"
             android:text="12/28"
