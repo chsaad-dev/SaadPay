@@ -21,6 +21,8 @@ activityKtx = "1.8.2"
 
 biometric = "1.2.0-alpha05"
 securityCryptoKtx = "1.1.0-alpha06"
+navigationFragmentKtx = "2.9.1"
+navigationUiKtx = "2.9.1"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -50,3 +52,5 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "a
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
 biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }

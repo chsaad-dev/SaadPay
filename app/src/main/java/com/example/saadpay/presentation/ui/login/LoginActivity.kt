@@ -6,14 +6,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.saadpay.databinding.ActivityLoginBinding
-import com.example.saadpay.presentation.ui.dashboard.DashboardActivity
+import com.example.saadpay.presentation.ui.main.home.DashboardFragment
 import com.example.saadpay.presentation.ui.register.RegisterActivity
 import com.example.saadpay.presentation.viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val viewModel: LoginViewModel by viewModels() // ViewModel scoped to this activity
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.loginSuccess.observe(this) { success ->
             if (success) {
-                startActivity(Intent(this, DashboardActivity::class.java))
+                startActivity(Intent(this, DashboardFragment::class.java))
                 finish()
             }
         }

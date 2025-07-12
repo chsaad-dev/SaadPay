@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setPinFragmentRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/pinEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter 4-digit PIN"
+        android:inputType="numberPassword"
+        android:maxLength="4"
+        android:textSize="24sp"
+        android:ems="4"
+        android:gravity="center" />
+
+    <EditText
+        android:id="@+id/confirmPinEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Confirm 4-digit PIN"
+        android:inputType="numberPassword"
+        android:maxLength="4"
+        android:textSize="24sp"
+        android:ems="4"
+        android:gravity="center"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/savePinButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save PIN"
+        android:layout_marginTop="24dp" />
+</LinearLayout>

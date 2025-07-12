@@ -1,8 +1,9 @@
 package com.example.saadpay.data.repository
 
 import android.util.Log
-import com.example.saadpay.data.model.Transaction
+import com.example.saadpay.domain.model.Transaction
 import com.example.saadpay.data.model.User
+import com.example.saadpay.domain.model.Card
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -184,6 +185,53 @@ class FirestoreRepository {
             }
     }
 
+    fun getTransactionHistory(callback: (List<Transaction>, Exception?) -> Unit) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid == null) {
+            Log.e("FirestoreRepository", "getTransactionHistory: UID is null")
+            callback(emptyList(), Exception("User not logged in"))
+            return
+        }
+
+        FirebaseFirestore.getInstance().collection("transactions")
+            .whereArrayContains("participants", uid)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val txns = snapshot.documents.mapNotNull { doc ->
+                    try {
+                        doc.toObject(Transaction::class.java)
+                    } catch (e: Exception) {
+                        Log.e("FirestoreRepository", "Error parsing transaction: ${e.message}")
+                        null
+                    }
+                }
+                callback(txns, null)
+            }
+            .addOnFailureListener { e ->
+                Log.e("FirestoreRepository", "Failed to fetch transactions: ${e.message}")
+                callback(emptyList(), e)
+            }
+    }
+
+
+
+    fun getUserCard(userId: String, onResult: (Card?) -> Unit) {
+        firestore.collection("cards")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    val card = doc.toObject(Card::class.java)
+                    onResult(card)
+                } else {
+                    onResult(null)
+                }
+            }
+            .addOnFailureListener {
+                onResult(null)
+            }
+    }
 
 
 

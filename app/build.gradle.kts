@@ -47,6 +47,7 @@ dependencies {
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.security.crypto.ktx)
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
 
     implementation(libs.core.ktx)
@@ -66,6 +67,8 @@ dependencies {
 
     implementation("com.itextpdf:kernel:7.1.15")
     implementation("com.itextpdf:layout:7.1.15")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
 
     testImplementation(libs.junit)

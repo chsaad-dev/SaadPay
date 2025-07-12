@@ -6,8 +6,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.saadpay.databinding.ActivityRegisterBinding
-import com.example.saadpay.presentation.ui.dashboard.DashboardActivity
 import com.example.saadpay.presentation.ui.login.LoginActivity
+import com.example.saadpay.presentation.ui.main.home.DashboardFragment
 import com.example.saadpay.presentation.viewmodel.RegisterViewModel
 
 class RegisterActivity : AppCompatActivity() {
@@ -38,7 +38,7 @@ class RegisterActivity : AppCompatActivity() {
 
         viewModel.registerSuccess.observe(this) { success ->
             if (success) {
-                startActivity(Intent(this, DashboardActivity::class.java))
+                startActivity(Intent(this, DashboardFragment::class.java))
                 finish()
             } else {
                 Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show()

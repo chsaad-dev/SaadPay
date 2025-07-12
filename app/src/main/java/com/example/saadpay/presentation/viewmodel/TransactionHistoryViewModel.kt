@@ -3,7 +3,7 @@ package com.example.saadpay.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.saadpay.data.model.Transaction
+import com.example.saadpay.domain.model.Transaction
 import com.example.saadpay.data.repository.FirestoreRepository
 
 

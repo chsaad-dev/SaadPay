@@ -7,7 +7,7 @@
     android:background="#EEEEEE">
 
     <TextView
-        android:id="@+id/headerTextView"
+        android:id="@+id/headerDateTextView"
         android:textStyle="bold"
         android:textSize="16sp"
         android:textColor="#333333"

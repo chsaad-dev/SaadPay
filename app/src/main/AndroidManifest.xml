@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SaadPay">
 
-        <!-- SplashActivity set as launcher -->
+        <!-- SplashActivity is launcher -->
         <activity
             android:name=".presentation.ui.splash.SplashActivity"
             android:exported="true"
@@ -26,19 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.ui.security.PinLockActivity" />
-        <activity android:name=".presentation.ui.security.SetPinActivity" />
 
+        <activity android:name=".presentation.ui.main.MainActivity" />
+
+        <!-- Auth screens -->
         <activity android:name=".presentation.ui.login.LoginActivity" />
-        <activity android:name=".presentation.ui.dashboard.DashboardActivity" />
         <activity android:name=".presentation.ui.register.RegisterActivity" />
-        <activity android:name=".presentation.ui.loadmoney.LoadMoneyActivity" />
-        <activity android:name=".presentation.ui.sendmoney.SendMoneyActivity" />
-        <activity android:name=".presentation.ui.transactionhistory.TransactionHistoryActivity"/>
-
-        <activity android:name=".presentation.ui.security.ChangePinActivity"/>
-        <activity android:name=".presentation.ui.security.ForgotPinActivity"/>
 
     </application>
-
 </manifest>

@@ -6,8 +6,9 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.example.saadpay.R
-import com.example.saadpay.presentation.ui.dashboard.DashboardActivity
 import com.example.saadpay.presentation.ui.login.LoginActivity
+import com.example.saadpay.presentation.ui.main.MainActivity
+import com.example.saadpay.presentation.ui.main.home.DashboardFragment
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashActivity : AppCompatActivity() {
@@ -20,13 +21,13 @@ class SplashActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             val user = FirebaseAuth.getInstance().currentUser
             val intent = if (user != null) {
-                Intent(this, DashboardActivity::class.java)
+                Intent(this, MainActivity::class.java)
             } else {
                 Intent(this, LoginActivity::class.java)
             }
             startActivity(intent)
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             finish()
-        }, 2000) // 2 seconds delay
+        }, 2000)
     }
 }
