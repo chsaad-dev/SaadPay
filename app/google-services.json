@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029242896453",
+    "project_id": "saadpay-075",
+    "storage_bucket": "saadpay-075.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029242896453:android:c5137f9413096a309b232c",
+        "android_client_info": {
+          "package_name": "com.example.saadpay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRYYFksmB--3jG0BGQ1hqwFuqtEkiDGME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
