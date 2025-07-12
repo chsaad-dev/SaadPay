@@ -36,6 +36,9 @@
         <activity android:name=".presentation.ui.sendmoney.SendMoneyActivity" />
         <activity android:name=".presentation.ui.transactionhistory.TransactionHistoryActivity"/>
 
+        <activity android:name=".presentation.ui.security.ChangePinActivity"/>
+        <activity android:name=".presentation.ui.security.ForgotPinActivity"/>
+
     </application>
 
 </manifest>

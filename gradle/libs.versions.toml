@@ -17,7 +17,10 @@ firebaseFirestoreKtx = "24.11.0"
 junit = "4.13.2"
 androidxJunit = "1.1.5"
 espressoCore = "3.5.1"
-biometricKtx = "1.1.0"
+activityKtx = "1.8.2"
+
+biometric = "1.2.0-alpha05"
+securityCryptoKtx = "1.1.0-alpha06"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -25,6 +28,9 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 
 [libraries]
+androidx-security-crypto-ktx = { group = "androidx.security", name = "security-crypto-ktx", version.ref = "securityCryptoKtx" }
+
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appCompat" }
@@ -42,4 +48,5 @@ firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-fires
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "biometricKtx" }
+
+biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }

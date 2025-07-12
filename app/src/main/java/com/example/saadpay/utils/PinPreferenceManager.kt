@@ -2,7 +2,7 @@ package com.example.saadpay.utils
 
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 
 class PinPreferenceManager(context: Context) {
 
@@ -11,12 +11,15 @@ class PinPreferenceManager(context: Context) {
         private const val KEY_PIN = "user_pin"
     }
 
-    private val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+    // Modern MasterKey API (replacement for deprecated MasterKeys)
+    private val masterKey = MasterKey.Builder(context)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
 
     private val prefs = EncryptedSharedPreferences.create(
-        PREF_FILE,
-        masterKeyAlias,
         context,
+        PREF_FILE,
+        masterKey,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )

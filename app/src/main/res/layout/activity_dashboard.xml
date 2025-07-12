@@ -47,6 +47,21 @@
         android:text="Transaction History"
         android:layout_marginTop="16dp" />
 
+    <Button
+        android:id="@+id/changePinButton"
+        android:text="Change PIN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/forgotPinButton"
+        android:text="Forgot PIN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+
 
     <Button
         android:id="@+id/logoutButton"

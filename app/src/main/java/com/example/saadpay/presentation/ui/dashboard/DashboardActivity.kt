@@ -3,6 +3,7 @@ package com.example.saadpay.presentation.ui.dashboard
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
@@ -11,6 +12,8 @@ import androidx.core.content.ContextCompat
 import com.example.saadpay.databinding.ActivityDashboardBinding
 import com.example.saadpay.presentation.ui.loadmoney.LoadMoneyActivity
 import com.example.saadpay.presentation.ui.login.LoginActivity
+import com.example.saadpay.presentation.ui.security.ChangePinActivity
+import com.example.saadpay.presentation.ui.security.ForgotPinActivity
 import com.example.saadpay.presentation.ui.sendmoney.SendMoneyActivity
 import com.example.saadpay.presentation.ui.security.PinLockActivity
 import com.example.saadpay.presentation.ui.security.SetPinActivity
@@ -29,8 +32,24 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private lateinit var executor: Executor
 
-    private var isAuthenticated = false // to track if user passed biometric/PIN
+    private var isAuthenticated = false
     private lateinit var pinPreferenceManager: PinPreferenceManager
+
+    private val pinLockLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            onUserAuthenticated()
+        } else {
+            finish()
+        }
+    }
+
+    private val setPinLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            setupBiometric()
+        } else {
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,16 +61,11 @@ class DashboardActivity : AppCompatActivity() {
         pinPreferenceManager = PinPreferenceManager(this)
 
         if (!pinPreferenceManager.isPinSet()) {
-            // No PIN set, force user to create one first
             val intent = Intent(this, SetPinActivity::class.java)
-            startActivityForResult(intent, SET_PIN_REQUEST_CODE)
+            setPinLauncher.launch(intent)
         } else {
-            // PIN set, proceed with biometric or PIN lock
             setupBiometric()
         }
-
-        // Optional: You can hide the dashboard UI until authenticated
-        // by default views are visible, you can hide here if needed.
     }
 
     private fun setupBiometric() {
@@ -61,7 +75,6 @@ class DashboardActivity : AppCompatActivity() {
                 showBiometricPrompt()
             }
             else -> {
-                // No biometrics available or enrolled, fallback
                 launchPinLock()
             }
         }
@@ -99,7 +112,7 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun launchPinLock() {
         val intent = Intent(this, PinLockActivity::class.java)
-        startActivityForResult(intent, PIN_LOCK_REQUEST_CODE)
+        pinLockLauncher.launch(intent)
     }
 
     private fun onUserAuthenticated() {
@@ -130,6 +143,15 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, TransactionHistoryActivity::class.java))
         }
 
+        binding.changePinButton.setOnClickListener {
+            startActivity(Intent(this, ChangePinActivity::class.java))
+        }
+
+        binding.forgotPinButton.setOnClickListener {
+            startActivity(Intent(this, ForgotPinActivity::class.java))
+        }
+
+
         binding.logoutButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(this, LoginActivity::class.java))
@@ -146,34 +168,5 @@ class DashboardActivity : AppCompatActivity() {
         if (isAuthenticated) {
             viewModel.fetchCurrentUser()
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            PIN_LOCK_REQUEST_CODE -> {
-                if (resultCode == RESULT_OK) {
-                    // PIN successful
-                    onUserAuthenticated()
-                } else {
-                    // PIN failed or canceled, finish activity to lock access
-                    finish()
-                }
-            }
-            SET_PIN_REQUEST_CODE -> {
-                if (resultCode == RESULT_OK) {
-                    // PIN set successfully, now continue auth flow
-                    setupBiometric()
-                } else {
-                    // User did not set PIN, close app or restrict access
-                    finish()
-                }
-            }
-        }
-    }
-
-    companion object {
-        const val PIN_LOCK_REQUEST_CODE = 1001
-        const val SET_PIN_REQUEST_CODE = 1002
     }
 }

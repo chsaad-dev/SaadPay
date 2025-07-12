@@ -45,6 +45,10 @@ android {
 dependencies {
     implementation(platform(libs.firebase.bom))
 
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.security.crypto.ktx)
+
+
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -57,7 +61,12 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.play.services.auth)
-    implementation(libs.androidx.biometric.ktx)
+    implementation(libs.biometric)
+    implementation(libs.androidx.security.crypto.ktx)
+
+    implementation("com.itextpdf:kernel:7.1.15")
+    implementation("com.itextpdf:layout:7.1.15")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
