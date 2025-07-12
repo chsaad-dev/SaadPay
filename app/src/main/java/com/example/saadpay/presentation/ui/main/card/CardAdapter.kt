@@ -31,15 +31,15 @@ class CardAdapter(private val cardList: List<CardModel>) : RecyclerView.Adapter<
 
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val cardType: TextView = itemView.findViewById(R.id.cardType)
-        private val userName: TextView = itemView.findViewById(R.id.cardUserName) // ✅ fixed
+        private val userName: TextView = itemView.findViewById(R.id.cardUserName)
         private val cardNumber: TextView = itemView.findViewById(R.id.cardNumber)
-        private val expiry: TextView = itemView.findViewById(R.id.cardExpiry) // ✅ fixed
-        private val cvv: TextView = itemView.findViewById(R.id.cardCvv)       // ✅ fixed
+        private val expiry: TextView = itemView.findViewById(R.id.cardExpiry)
+        private val cvv: TextView = itemView.findViewById(R.id.cardCvv)
         private val eyeIcon: ImageView = itemView.findViewById(R.id.eyeIcon)
 
         fun bind(card: CardModel, position: Int) {
             cardType.text = card.type
-            userName.text = card.userName
+            userName.text = card.userName.uppercase()
 
             val isVisible = visibleCardPosition == position
 

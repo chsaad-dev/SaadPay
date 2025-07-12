@@ -28,7 +28,7 @@ class CardFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val userName = FirebaseAuth.getInstance().currentUser?.displayName ?: "SaadPay User"
+        val userName = FirebaseAuth.getInstance().currentUser?.displayName?.takeIf { it.isNotBlank() } ?: "SaadPay User"
 
         cards.add(CardModel("Virtual", userName))
         cards.add(CardModel("Physical", userName))

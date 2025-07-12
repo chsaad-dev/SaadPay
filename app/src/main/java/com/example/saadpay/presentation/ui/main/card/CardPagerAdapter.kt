@@ -26,7 +26,7 @@ class CardPagerAdapter(
 
         fun bind(card: CardModel, position: Int) {
             cardType.text = card.type
-            userName.text = card.userName
+            userName.text = card.userName.uppercase()
 
             if (card.isVisible) {
                 cardNumber.text = card.cardNumber
