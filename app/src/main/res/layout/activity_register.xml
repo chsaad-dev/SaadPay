@@ -12,57 +12,89 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+        <!-- App Logo or Icon Placeholder -->
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_logo_registration"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Logo" />
+
         <TextView
             android:text="Create Account"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginBottom="32dp"
             android:textColor="@color/black"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="24dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <!-- Name Field -->
         <EditText
             android:id="@+id/nameEditText"
             android:hint="Full Name"
+            android:textColorHint="#888888"
             android:inputType="textPersonName"
-            android:background="@drawable/edittext_background"
-            android:padding="12dp"
+            android:background="@drawable/bg_input_rounded"
+            android:drawableStart="@drawable/ic_name"
+            android:drawablePadding="12dp"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <!-- Email Field -->
         <EditText
             android:id="@+id/emailEditText"
             android:hint="Email"
+            android:textColorHint="#888888"
             android:inputType="textEmailAddress"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/edittext_background"
-            android:padding="12dp"
+            android:background="@drawable/bg_input_rounded"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="12dp"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <!-- Password Field -->
         <EditText
             android:id="@+id/passwordEditText"
             android:hint="Password"
+            android:textColorHint="#888888"
             android:inputType="textPassword"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/edittext_background"
-            android:padding="12dp"
+            android:background="@drawable/bg_input_rounded"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawablePadding="12dp"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <!-- Register Button -->
         <Button
             android:id="@+id/registerButton"
             android:text="Register"
-            android:layout_marginTop="24dp"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/primaryColor"
+            android:textColor="@android:color/white"
+            android:elevation="6dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp" />
 
+        <!-- Login Redirect Text -->
         <TextView
             android:id="@+id/loginTextView"
             android:text="Already have an account? Login"
             android:textColor="@color/purple_700"
-            android:layout_marginTop="20dp"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

@@ -12,6 +12,7 @@
 
     <color name="md_theme_secondary">#5C6BC0</color>
     <color name="md_theme_secondaryContainer">#E8EAF6</color>
+    <color name="colorPrimaryDark">#1976D2</color>
 
     <color name="accentColor">#03A9F4</color>
     <color name="lightBlue">#4A90E2</color>
