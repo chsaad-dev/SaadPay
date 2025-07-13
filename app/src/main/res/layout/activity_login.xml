@@ -24,7 +24,7 @@
 
         <!-- Title -->
         <TextView
-            android:text="Welcome Back"
+            android:text="Login to SaadPay"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -80,7 +80,7 @@
             android:id="@+id/registerTextView"
             android:text="Don't have an account? Register"
             android:textColor="@color/purple_700"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
