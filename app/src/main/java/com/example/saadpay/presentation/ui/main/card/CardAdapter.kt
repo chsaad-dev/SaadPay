@@ -44,7 +44,8 @@ class CardAdapter(private val cardList: List<CardModel>) : RecyclerView.Adapter<
             val isVisible = visibleCardPosition == position
 
             if (isVisible) {
-                cardNumber.text = card.cardNumber
+                val formattedCardNumber = card.cardNumber.chunked(4).joinToString(" ")
+                cardNumber.text = formattedCardNumber
                 expiry.text = "Expiry: ${card.expiry}"
                 cvv.text = "CVV: ${card.cvv}"
                 eyeIcon.setImageResource(R.drawable.ic_eye_open)

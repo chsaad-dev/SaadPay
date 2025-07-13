@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.saadpay.databinding.FragmentCardsBinding
 import com.example.saadpay.domain.model.CardModel
@@ -56,10 +57,37 @@ class CardFragment : Fragment() {
             }
 
             binding.cardViewPager.adapter = adapter
+            binding.cardViewPager.apply {
+                offscreenPageLimit = 1
+                setPageTransformer { page, position ->
+                    page.translationX = -32 * position
+                    page.scaleY = 1 - (0.1f * kotlin.math.abs(position))
+                }
+            }
+
+
         }
 
-        binding.switchWithdraw.setOnCheckedChangeListener { _, isChecked -> }
-        binding.switchInternational.setOnCheckedChangeListener { _, isChecked -> }
+        binding.switchWithdraw.setOnCheckedChangeListener { _, isChecked ->
+            val message = if (isChecked) "Withdraw Enabled" else "Withdraw Disabled"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.switchInternational.setOnCheckedChangeListener { _, isChecked ->
+            val message = if (isChecked) "International Transactions Enabled" else "International Transactions Disabled"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.switchInShop.setOnCheckedChangeListener { _, isChecked ->
+            val message = if (isChecked) "Enabled In-Shop Transactions" else "Disabled In-Shop Transactions"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.switchBlock.setOnCheckedChangeListener { _, isChecked ->
+            val message = if (isChecked) "Your Card is Blocked Temporarily" else "Your Card is Unblocked"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     override fun onDestroyView() {

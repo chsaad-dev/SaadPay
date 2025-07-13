@@ -6,44 +6,106 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="?android:attr/windowBackground">
+    android:background="@android:color/white">
 
     <!-- Title -->
     <TextView
         android:id="@+id/cardsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cards"
-        android:textAppearance="?attr/textAppearanceHeadlineMedium"
+        android:text="My Cards"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
+        android:textColor="@color/primaryColor"
+        android:layout_marginBottom="16dp" />
 
-    <!-- ViewPager for swipeable cards -->
+    <!-- Switches -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/cardViewPager"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="200dp"
+        android:layout_marginBottom="24dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingStart="1dp"
+        android:paddingEnd="1dp" />
 
-    <!-- Card settings -->
-    <LinearLayout
+   <LinearLayout
         android:id="@+id/settingsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/bg_card_settings"
+        android:padding="16dp"
+        android:layout_marginTop="10dp">
+
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchWithdraw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enable Withdraw" />
+            android:text="Enable Withdraw"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+   <LinearLayout
+        android:id="@+id/switchInternationalTransactions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_card_settings"
+        android:padding="16dp"
+        android:layout_marginTop="10dp">
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchInternational"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enable International Transactions"
-            android:layout_marginTop="8dp" />
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/enableInShopPurchase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_card_settings"
+        android:padding="16dp"
+        android:layout_marginTop="10dp">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchInShop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable In-Shop Purchases"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+   <LinearLayout
+        android:id="@+id/switchBlockCards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_card_settings"
+        android:padding="16dp"
+        android:layout_marginTop="10dp">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Temporarily Block Your Cards"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="15sp" />
     </LinearLayout>
 
 </LinearLayout>
