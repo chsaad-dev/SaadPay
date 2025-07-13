@@ -27,6 +27,21 @@ class LoadMoneyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val slides = listOf(
+            "  Tips:\n\n💡 You can load any amount just enter amount and click button.\n\n💸 Money is added instantly to your wallet.",
+            "  Instructions:\n\n🔐 Keep your SaadPay credentials private.\n\n✅ Always verify before sending money.",
+            "  Help and Support:\n\n📞 In case of issues, contact support via the Help section.\n\n🛡️ Your security is our top priority."
+        )
+        binding.tipsViewPager.adapter = InfoPagerAdapter(slides)
+        binding.tipsViewPager.apply {
+            offscreenPageLimit = 1
+            setPageTransformer { page, position ->
+                page.translationX = -32 * position
+                page.scaleY = 1 - (0.1f * kotlin.math.abs(position))
+            }
+        }
+
+        // ✅ Load Money Button Click
         binding.loadButton.setOnClickListener {
             val amountText = binding.amountEditText.text.toString().trim()
             val amount = amountText.toDoubleOrNull()
@@ -38,6 +53,7 @@ class LoadMoneyFragment : Fragment() {
             }
         }
 
+        // ✅ Observers
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
