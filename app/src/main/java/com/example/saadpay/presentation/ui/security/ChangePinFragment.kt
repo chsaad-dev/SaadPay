@@ -36,10 +36,13 @@ class ChangePinFragment : Fragment() {
 
             when {
                 oldPin != pinManager.getPin() -> {
-                    Toast.makeText(requireContext(), "Old PIN incorrect", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Incorrect Old PIN", Toast.LENGTH_SHORT).show()
                 }
                 newPin != confirmPin -> {
                     Toast.makeText(requireContext(), "New PINs do not match", Toast.LENGTH_SHORT).show()
+                }
+                newPin.length < 4 -> {
+                    Toast.makeText(requireContext(), "PIN must be of 4 digits", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
                     pinManager.savePin(newPin)
@@ -48,6 +51,7 @@ class ChangePinFragment : Fragment() {
                 }
             }
         }
+
     }
 
     override fun onDestroyView() {
