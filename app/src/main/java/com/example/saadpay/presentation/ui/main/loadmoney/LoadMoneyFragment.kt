@@ -29,7 +29,7 @@ class LoadMoneyFragment : Fragment() {
 
         val slides = listOf(
             "  Tips:\n\n💡 You can load any amount just enter amount and click button.\n\n💸 Money is added instantly to your wallet.",
-            "  Instructions:\n\n🔐 Keep your SaadPay credentials private.\n\n✅ Always verify before sending money.",
+            "  Instructions:\n\n🔐 Keep your SaadPay credentials private.\n\n✅ Always verify amount before loading.",
             "  Help and Support:\n\n📞 In case of issues, contact support via the Help section.\n\n🛡️ Your security is our top priority."
         )
         binding.tipsViewPager.adapter = InfoPagerAdapter(slides)

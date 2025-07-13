@@ -1,54 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sendMoneyRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="24dp"
-    android:background="@color/white"
-    android:gravity="center_horizontal">
+    android:background="@color/white">
 
-    <TextView
-        android:text="Send Money"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginBottom="24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp" />
-
-    <EditText
-        android:id="@+id/emailEditText"
-        android:hint="Recipient Email"
-        android:inputType="textEmailAddress"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edittext_background"
-        android:padding="12dp" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/amountEditText"
-        android:hint="Enter Amount"
-        android:inputType="numberDecimal"
-        android:layout_marginTop="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_background"
-        android:padding="12dp" />
+        <!-- App Title -->
+        <TextView
+            android:text="SaadPay"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/primaryColor"
+            android:layout_marginBottom="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/sendButton"
-        android:text="Send"
-        android:layout_marginTop="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        <!-- Page Title -->
+        <TextView
+            android:text="Send Money"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/emailEditText"
+            android:hint="Recipient Email"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/bg_input_rounded_selector"
+            android:textColor="@color/black"
+            android:textColorHint="#888888"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Amount -->
+        <EditText
+            android:id="@+id/amountEditText"
+            android:hint="Enter Amount"
+            android:inputType="numberDecimal"
+            android:background="@drawable/bg_input_rounded_selector"
+            android:textColor="@color/black"
+            android:textColorHint="#888888"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Send Button -->
+        <Button
+            android:id="@+id/sendButton"
+            android:text="Send"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/primaryColor"
+            android:textColor="@android:color/white"
+            android:elevation="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp" />
+
+        <!-- ProgressBar -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:text="Swipe to View More"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Swipeable ViewPager2 -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/tipsViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:clipToPadding="false"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:overScrollMode="never" />
+    </LinearLayout>
+</ScrollView>

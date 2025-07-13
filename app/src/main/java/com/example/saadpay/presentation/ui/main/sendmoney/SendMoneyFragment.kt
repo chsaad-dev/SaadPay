@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.saadpay.databinding.FragmentSendMoneyBinding
+import com.example.saadpay.presentation.ui.main.loadmoney.InfoPagerAdapter
 import com.example.saadpay.presentation.viewmodel.SendMoneyViewModel
 
 class SendMoneyFragment : Fragment() {
@@ -25,6 +26,24 @@ class SendMoneyFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // ✅ Setup ViewPager with Tips
+        val tips = listOf(
+            "💡 Always double-check the recipient’s email.\n\n🚀 Transfers are instant and cannot be reversed.\n\n🔄 Make sure you enter the correct amount.",
+            "🔐 Never share your password or OTP.\n\n✅ Verify the email before hitting Send.\n\n🛑 Avoid sending to unknown users."
+        )
+
+
+        binding.tipsViewPager.adapter = InfoPagerAdapter(tips)
+
+        binding.tipsViewPager.apply {
+            offscreenPageLimit = 1
+            setPageTransformer { page, position ->
+                page.translationX = -32 * position
+                page.scaleY = 1 - (0.1f * kotlin.math.abs(position))
+            }
+        }
+
+        // ✅ Handle Button Click
         binding.sendButton.setOnClickListener {
             val email = binding.emailEditText.text.toString().trim()
             val amountText = binding.amountEditText.text.toString().trim()
