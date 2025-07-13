@@ -22,6 +22,7 @@
         <EditText
             android:id="@+id/oldPinEditText"
             android:hint="Enter Old PIN"
+            android:maxLength="4"
             android:inputType="numberPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,6 +34,7 @@
         <EditText
             android:id="@+id/newPinEditText"
             android:hint="New PIN"
+            android:maxLength="4"
             android:inputType="numberPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,6 +47,7 @@
         <EditText
             android:id="@+id/confirmPinEditText"
             android:hint="Confirm New PIN"
+            android:maxLength="4"
             android:inputType="numberPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

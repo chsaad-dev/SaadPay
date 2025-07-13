@@ -41,8 +41,8 @@ class ChangePinFragment : Fragment() {
                 newPin != confirmPin -> {
                     Toast.makeText(requireContext(), "New PINs do not match", Toast.LENGTH_SHORT).show()
                 }
-                newPin.length < 4 -> {
-                    Toast.makeText(requireContext(), "PIN must be of 4 digits", Toast.LENGTH_SHORT).show()
+                newPin.length != 4 || confirmPin.length != 4 -> {
+                    Toast.makeText(requireContext(), "PIN must be exactly 4 digits", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
                     pinManager.savePin(newPin)
@@ -51,6 +51,7 @@ class ChangePinFragment : Fragment() {
                 }
             }
         }
+
 
     }
 
