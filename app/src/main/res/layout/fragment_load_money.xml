@@ -29,11 +29,11 @@
 
         <TextView
             android:text="Load Money"
-            android:textSize="24sp"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@color/primaryColor"
-            android:layout_marginBottom="32dp"
-            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
