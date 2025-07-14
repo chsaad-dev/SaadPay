@@ -3,9 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/pinLockFragment">
+    app:startDestination="@id/pinRouterFragment">
 
-    <!-- PIN Lock Flow -->
+    <!-- ✅ PIN Router Logic -->
+    <fragment
+        android:id="@+id/pinRouterFragment"
+        android:name="com.example.saadpay.presentation.ui.security.PinRouterFragment"
+        android:label="PIN Router"
+        tools:layout="@layout/fragment_blank">
+        <action
+            android:id="@+id/action_pinRouterFragment_to_pinLockFragment"
+            app:destination="@id/pinLockFragment"
+            app:popUpTo="@id/pinRouterFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_pinRouterFragment_to_setPinFragment"
+            app:destination="@id/setPinFragment"
+            app:popUpTo="@id/pinRouterFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 🔐 PIN Lock -->
     <fragment
         android:id="@+id/pinLockFragment"
         android:name="com.example.saadpay.presentation.ui.security.PinLockFragment"
@@ -24,6 +42,7 @@
             app:popUpToInclusive="true" />
     </fragment>
 
+    <!-- 🔐 Set PIN -->
     <fragment
         android:id="@+id/setPinFragment"
         android:name="com.example.saadpay.presentation.ui.security.SetPinFragment"
@@ -34,8 +53,15 @@
             app:destination="@id/pinLockFragment"
             app:popUpTo="@id/setPinFragment"
             app:popUpToInclusive="true" />
+        <!-- ✅ Corrected placement: add this here -->
+        <action
+            android:id="@+id/action_setPinFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/setPinFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
+    <!-- 🔐 Forgot PIN -->
     <fragment
         android:id="@+id/forgotPinFragment"
         android:name="com.example.saadpay.presentation.ui.security.ForgotPinFragment"
@@ -54,14 +80,13 @@
         android:label="Change PIN"
         tools:layout="@layout/fragment_change_pin" />
 
-    <!-- Main Dashboard Tabs -->
+    <!-- 🌐 Dashboard Tabs -->
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.example.saadpay.presentation.ui.main.home.DashboardFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
-    <!-- ✅ Fixed: CardFragment now properly declared -->
     <fragment
         android:id="@+id/cardFragment"
         android:name="com.example.saadpay.presentation.ui.main.card.CardFragment"

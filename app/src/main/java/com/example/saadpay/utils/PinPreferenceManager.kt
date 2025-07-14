@@ -3,13 +3,14 @@ package com.example.saadpay.utils
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.google.firebase.auth.FirebaseAuth
 
 class PinPreferenceManager(context: Context) {
 
     companion object {
         private const val PREF_FILE = "pin_prefs"
-        private const val KEY_PIN = "user_pin"
-        private const val KEY_BIOMETRIC_ENABLED = "biometric_enabled"
+        private const val KEY_PIN = "user_pin_"     // suffix with UID
+        private const val KEY_BIOMETRIC = "biometric_enabled_"
     }
 
     private val masterKey = MasterKey.Builder(context)
@@ -24,12 +25,18 @@ class PinPreferenceManager(context: Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
+    private fun currentUid(): String? {
+        return FirebaseAuth.getInstance().currentUser?.uid
+    }
+
     fun savePin(pin: String) {
-        prefs.edit().putString(KEY_PIN, pin).apply()
+        val uid = currentUid() ?: return
+        prefs.edit().putString(KEY_PIN + uid, pin).apply()
     }
 
     fun getPin(): String? {
-        return prefs.getString(KEY_PIN, null)
+        val uid = currentUid() ?: return null
+        return prefs.getString(KEY_PIN + uid, null)
     }
 
     fun isPinSet(): Boolean {
@@ -37,15 +44,22 @@ class PinPreferenceManager(context: Context) {
     }
 
     fun clearPin() {
-        prefs.edit().remove(KEY_PIN).apply()
+        val uid = currentUid() ?: return
+        prefs.edit().remove(KEY_PIN + uid).apply()
     }
 
-    // ✅ NEW: Biometric toggle handling
     fun setBiometricEnabled(enabled: Boolean) {
-        prefs.edit().putBoolean(KEY_BIOMETRIC_ENABLED, enabled).apply()
+        val uid = currentUid() ?: return
+        prefs.edit().putBoolean(KEY_BIOMETRIC + uid, enabled).apply()
     }
 
     fun isBiometricEnabled(): Boolean {
-        return prefs.getBoolean(KEY_BIOMETRIC_ENABLED, true) // default: true
+        val uid = currentUid() ?: return false
+        return prefs.getBoolean(KEY_BIOMETRIC + uid, false)
+    }
+
+    fun clearBiometric() {
+        val uid = currentUid() ?: return
+        prefs.edit().remove(KEY_BIOMETRIC + uid).apply()
     }
 }

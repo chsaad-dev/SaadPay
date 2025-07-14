@@ -1,40 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/setPinFragmentRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:fillViewport="true">
 
-    <EditText
-        android:id="@+id/pinEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter 4-digit PIN"
-        android:inputType="numberPassword"
-        android:maxLength="4"
-        android:textSize="24sp"
-        android:ems="4"
-        android:gravity="center" />
-
-    <EditText
-        android:id="@+id/confirmPinEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Confirm 4-digit PIN"
-        android:inputType="numberPassword"
-        android:maxLength="4"
-        android:textSize="24sp"
-        android:ems="4"
-        android:gravity="center"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:id="@+id/savePinButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save PIN"
-        android:layout_marginTop="24dp" />
-</LinearLayout>
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set 4-digit PIN"
+            android:textSize="22sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <!-- First PIN input -->
+        <LinearLayout
+            android:id="@+id/pinBoxContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <EditText android:id="@+id/pin1" style="@style/PinBoxStyle" />
+            <EditText android:id="@+id/pin2" style="@style/PinBoxStyle" />
+            <EditText android:id="@+id/pin3" style="@style/PinBoxStyle" />
+            <EditText android:id="@+id/pin4" style="@style/PinBoxStyle" />
+        </LinearLayout>
+
+        <!-- Confirm PIN input -->
+        <LinearLayout
+            android:id="@+id/confirmPinBoxContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="24dp">
+
+            <EditText android:id="@+id/confirmPin1" style="@style/PinBoxStyle" />
+            <EditText android:id="@+id/confirmPin2" style="@style/PinBoxStyle" />
+            <EditText android:id="@+id/confirmPin3" style="@style/PinBoxStyle" />
+            <EditText android:id="@+id/confirmPin4" style="@style/PinBoxStyle" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/savePinButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save PIN"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/primaryColor"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="32dp"
+            android:padding="12dp"
+            android:layout_marginHorizontal="16dp" />
+    </LinearLayout>
+</ScrollView>

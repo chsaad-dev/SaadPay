@@ -39,8 +39,18 @@ class PinLockFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         pinPreferenceManager = PinPreferenceManager(requireContext())
 
+        val storedPin = pinPreferenceManager.getPin()
+        if (storedPin == null) {
+            // First time user → no PIN saved → navigate to Set PIN
+            findNavController().navigate(R.id.action_pinLockFragment_to_setPinFragment)
+            return
+        }
+
         setupPinBoxes()
-        setupBiometricAuth()
+
+        if (pinPreferenceManager.isBiometricEnabled()) {
+            setupBiometricAuth()
+        }
 
         binding.retryBiometric.setOnClickListener {
             biometricPrompt.authenticate(promptInfo)
@@ -91,16 +101,12 @@ class PinLockFragment : Fragment() {
         binding.pin2.text.clear()
         binding.pin3.text.clear()
         binding.pin4.text.clear()
+        binding.pin1.requestFocus()
     }
 
     private fun validatePinAndNavigate() {
         val enteredPin = getEnteredPin()
         val storedPin = pinPreferenceManager.getPin()
-
-        if (storedPin == null) {
-            Toast.makeText(requireContext(), "No PIN set. Please set PIN first.", Toast.LENGTH_SHORT).show()
-            return
-        }
 
         if (enteredPin == storedPin) {
             Toast.makeText(requireContext(), "Unlocked!", Toast.LENGTH_SHORT).show()
@@ -108,7 +114,6 @@ class PinLockFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Incorrect PIN", Toast.LENGTH_SHORT).show()
             clearPinBoxes()
-            binding.pin1.requestFocus()
         }
     }
 
