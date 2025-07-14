@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.saadpay.R
 import com.example.saadpay.databinding.FragmentProfileBinding
 import com.example.saadpay.presentation.ui.login.LoginActivity
 import com.example.saadpay.presentation.ui.security.ChangePinFragment
 import com.example.saadpay.presentation.ui.security.ForgotPinFragment
 import com.example.saadpay.utils.PinPreferenceManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfileFragment : Fragment() {
 
@@ -20,6 +22,8 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var pinPreferenceManager: PinPreferenceManager
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,8 +36,31 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
         pinPreferenceManager = PinPreferenceManager(requireContext())
 
+        // Set default profile picture (avatar)
+        binding.profileImageView.setImageResource(R.drawable.ic_person)
+
+        // Fetch user info from Firestore
+        val uid = auth.currentUser?.uid
+        if (uid != null) {
+            firestore.collection("users").document(uid).get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val name = document.getString("name") ?: "N/A"
+                        val email = document.getString("email") ?: "N/A"
+                        binding.profileNameTextView.text = name
+                        binding.profileEmailTextView.text = email
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext(), "Failed to load profile info", Toast.LENGTH_SHORT).show()
+                }
+        }
+
+        // Biometric switch
         val isEnabled = pinPreferenceManager.isBiometricEnabled()
         binding.biometricSwitch.isChecked = isEnabled
         updateStatusText(isEnabled)
@@ -57,7 +84,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.logoutCard.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
+            auth.signOut()
             startActivity(Intent(requireContext(), LoginActivity::class.java))
             requireActivity().finish()
         }
@@ -73,7 +100,7 @@ class ProfileFragment : Fragment() {
 
     private fun navigateTo(fragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(com.example.saadpay.R.id.nav_host_fragment, fragment)
+            .replace(R.id.nav_host_fragment, fragment)
             .addToBackStack(null)
             .commit()
     }

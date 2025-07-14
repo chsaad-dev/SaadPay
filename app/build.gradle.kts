@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.services)
+
 }
 
 android {
@@ -48,7 +49,6 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.security.crypto.ktx)
     implementation("androidx.fragment:fragment-ktx:1.6.2")
-
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

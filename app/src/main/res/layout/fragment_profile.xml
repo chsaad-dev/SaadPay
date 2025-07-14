@@ -9,19 +9,41 @@
         android:id="@+id/profileRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="24dp"
-        android:orientation="vertical">
+        android:gravity="center_horizontal">
 
-        <!-- Title -->
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_person"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_profile_circle"
+            android:padding="4dp" />
+
+        <!-- Name -->
         <TextView
-            android:id="@+id/profileTitle"
+            android:id="@+id/profileNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="👤 Profile Settings"
-            android:textSize="22sp"
+            android:text="SaadPay User"
+            android:textSize="24sp"
             android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/profileEmailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="saadpayuser@example.com"
+            android:textSize="18sp"
             android:textColor="@color/primaryColor"
-            android:paddingBottom="16dp" />
+            android:layout_marginBottom="24dp" />
 
         <!-- Fingerprint Status -->
         <TextView
@@ -33,27 +55,47 @@
             android:textColor="@color/gray"
             android:layout_marginBottom="8dp" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/biometricSwitch"
+        <!-- Biometric Switch Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enable Fingerprint Authentication"
-            android:textColor="@color/black"
-            android:layout_marginBottom="24dp" />
+            card_view:cardCornerRadius="16dp"
+            card_view:cardElevation="1dp"
+            card_view:cardBackgroundColor="@color/white"
+            android:layout_marginBottom="16dp">
 
-        <!-- Spacer to push actions lower -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="32dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="6dp"
+                android:gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                >
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="👉 Enable Fingerprint"
+                    android:textSize="17sp"
+                    android:textColor="@color/black" />
 
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/biometricSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Change PIN -->
         <androidx.cardview.widget.CardView
             android:id="@+id/changePinCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             card_view:cardCornerRadius="16dp"
-            card_view:cardElevation="6dp"
+            card_view:cardElevation="1dp"
             card_view:cardBackgroundColor="@color/white">
 
             <TextView
@@ -65,13 +107,14 @@
                 android:padding="16dp" />
         </androidx.cardview.widget.CardView>
 
+        <!-- Forgot PIN -->
         <androidx.cardview.widget.CardView
             android:id="@+id/forgotPinCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             card_view:cardCornerRadius="16dp"
-            card_view:cardElevation="6dp"
+            card_view:cardElevation="1dp"
             card_view:cardBackgroundColor="@color/white">
 
             <TextView
@@ -83,12 +126,13 @@
                 android:padding="16dp" />
         </androidx.cardview.widget.CardView>
 
+        <!-- Logout -->
         <androidx.cardview.widget.CardView
             android:id="@+id/logoutCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="16dp"
-            card_view:cardElevation="6dp"
+            card_view:cardElevation="1dp"
             card_view:cardBackgroundColor="@color/red">
 
             <TextView
@@ -99,6 +143,5 @@
                 android:textSize="16sp"
                 android:padding="16dp" />
         </androidx.cardview.widget.CardView>
-
     </LinearLayout>
 </ScrollView>

@@ -39,7 +39,6 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "32.7.2" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintLayout" }
-
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
