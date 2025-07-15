@@ -1,19 +1,16 @@
 package com.example.saadpay.presentation.ui.main.profile
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.saadpay.R
 import com.example.saadpay.databinding.FragmentProfileBinding
 import com.example.saadpay.presentation.ui.login.LoginActivity
-import com.example.saadpay.presentation.ui.security.ChangePinFragment
-import com.example.saadpay.presentation.ui.security.ForgotPinFragment
-import com.example.saadpay.presentation.ui.main.profile.TermsPrivacyFragment
 import com.example.saadpay.utils.PinPreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,33 +33,20 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         pinPreferenceManager = PinPreferenceManager(requireContext())
 
-        // Set default profile picture (avatar)
         binding.profileImageView.setImageResource(R.drawable.ic_person)
 
-        // Fetch user info from Firestore
-        val uid = auth.currentUser?.uid
-        if (uid != null) {
+        auth.currentUser?.uid?.let { uid ->
             firestore.collection("users").document(uid).get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val name = document.getString("name") ?: "N/A"
-                        val email = document.getString("email") ?: "N/A"
-                        binding.profileNameTextView.text = name
-                        binding.profileEmailTextView.text = email
-                    }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Failed to load profile info", Toast.LENGTH_SHORT).show()
+                .addOnSuccessListener { doc ->
+                    binding.profileNameTextView.text = doc.getString("name") ?: "N/A"
+                    binding.profileEmailTextView.text = doc.getString("email") ?: "N/A"
                 }
         }
 
-        // Biometric switch
         val isEnabled = pinPreferenceManager.isBiometricEnabled()
         binding.biometricSwitch.isChecked = isEnabled
         updateStatusText(isEnabled)
@@ -77,12 +61,13 @@ class ProfileFragment : Fragment() {
             ).show()
         }
 
+        // ✅ Navigate using NavController
         binding.changePinCard.setOnClickListener {
-            navigateTo(ChangePinFragment())
+            findNavController().navigate(R.id.action_profileFragment_to_changePinFragment)
         }
 
         binding.forgotPinCard.setOnClickListener {
-            navigateTo(ForgotPinFragment())
+            findNavController().navigate(R.id.action_profileFragment_to_forgotPinFragment)
         }
 
         binding.helpSupportCard.setOnClickListener {
@@ -91,7 +76,6 @@ class ProfileFragment : Fragment() {
                 putExtra(Intent.EXTRA_EMAIL, arrayOf("saadw7751@gmail.com"))
                 setPackage("com.google.android.gm")
             }
-
             try {
                 startActivity(intent)
             } catch (e: Exception) {
@@ -99,6 +83,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        // Terms still uses manual transaction (not in nav_graph)
         binding.termsPrivacyCard.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.nav_host_fragment, TermsPrivacyFragment())
@@ -106,10 +91,10 @@ class ProfileFragment : Fragment() {
                 .commit()
         }
 
-        val pInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
-        val versionName = pInfo.versionName
-        val versionCode = pInfo.longVersionCode
-
+        val versionName = requireContext().packageManager
+            .getPackageInfo(requireContext().packageName, 0).versionName
+        val versionCode = requireContext().packageManager
+            .getPackageInfo(requireContext().packageName, 0).longVersionCode
         binding.appVersionTextView.text = "Version $versionName (Build $versionCode)"
 
         binding.logoutCard.setOnClickListener {
@@ -120,18 +105,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun updateStatusText(isEnabled: Boolean) {
-        binding.fingerprintStatusTextView.text = if (isEnabled) {
-            "Fingerprint is enabled ✅"
-        } else {
-            "Fingerprint is disabled ❌"
-        }
-    }
-
-    private fun navigateTo(fragment: Fragment) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment, fragment)
-            .addToBackStack(null)
-            .commit()
+        binding.fingerprintStatusTextView.text =
+            if (isEnabled) "Fingerprint is enabled ✅" else "Fingerprint is disabled ❌"
     }
 
     override fun onDestroyView() {

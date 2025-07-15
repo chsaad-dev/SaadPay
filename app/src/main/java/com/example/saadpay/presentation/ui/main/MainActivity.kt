@@ -21,16 +21,21 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Hook up bottom nav with NavController
         binding.bottomNav.setupWithNavController(navController)
 
-        // 👇 Hide BottomNav on PIN-related screens
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.pinLockFragment,
                 R.id.setPinFragment,
-                R.id.forgotPinFragment -> binding.bottomNav.visibility = View.GONE
-                else -> binding.bottomNav.visibility = View.VISIBLE
+                R.id.forgotPinFragment,
+                R.id.loadMoneyFragment,
+                R.id.sendMoneyFragment -> {
+                    binding.bottomNav.visibility = View.GONE
+                }
+
+                else -> {
+                    binding.bottomNav.visibility = View.VISIBLE
+                }
             }
         }
     }

@@ -85,7 +85,17 @@
         android:id="@+id/dashboardFragment"
         android:name="com.example.saadpay.presentation.ui.main.home.DashboardFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard">
+
+        <action
+            android:id="@+id/action_dashboardFragment_to_sendMoneyFragment"
+            app:destination="@id/sendMoneyFragment" />
+
+        <action
+            android:id="@+id/action_dashboardFragment_to_loadMoneyFragment"
+            app:destination="@id/loadMoneyFragment" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/cardFragment"
@@ -115,5 +125,15 @@
         android:id="@+id/profileFragment"
         android:name="com.example.saadpay.presentation.ui.main.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_profileFragment_to_changePinFragment"
+            app:destination="@id/changePinFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_forgotPinFragment"
+            app:destination="@id/forgotPinFragment" />
+    </fragment>
+
 </navigation>
