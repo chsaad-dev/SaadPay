@@ -28,26 +28,32 @@ class DashboardFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (!isAdded || _binding == null) return
+
         viewModel.startListeningToUser()
 
         viewModel.userName.observe(viewLifecycleOwner) { name ->
+            if (!isAdded || _binding == null) return@observe
             binding.welcomeTextView.text = "Welcome, $name"
         }
 
         viewModel.balance.observe(viewLifecycleOwner) { amount ->
+            if (!isAdded || _binding == null) return@observe
             binding.balanceTextView.text = "Rs. %.2f".format(amount)
         }
 
-        // ✅ Navigate using NavController
         binding.loadMoneyButton.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
             findNavController().navigate(R.id.action_dashboardFragment_to_loadMoneyFragment)
         }
 
         binding.sendMoneyButton.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
             findNavController().navigate(R.id.action_dashboardFragment_to_sendMoneyFragment)
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
+            if (!isAdded || _binding == null) return@observe
             Toast.makeText(requireContext(), "Failed to load user data", Toast.LENGTH_SHORT).show()
         }
     }

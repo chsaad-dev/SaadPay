@@ -10,16 +10,19 @@ import com.example.saadpay.utils.PinPreferenceManager
 class PinRouterFragment : Fragment(R.layout.fragment_blank) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (!isAdded) return
         super.onViewCreated(view, savedInstanceState)
 
         val pinManager = PinPreferenceManager(requireContext())
 
-        if (pinManager.isPinSet()) {
-            // Navigate to PIN unlock if PIN is already set
-            findNavController().navigate(R.id.action_pinRouterFragment_to_pinLockFragment)
-        } else {
-            // Navigate to set PIN if not set yet
-            findNavController().navigate(R.id.action_pinRouterFragment_to_setPinFragment)
+        view.post {
+            if (!isAdded || view.context == null) return@post
+
+            if (pinManager.isPinSet()) {
+                findNavController().navigate(R.id.action_pinRouterFragment_to_pinLockFragment)
+            } else {
+                findNavController().navigate(R.id.action_pinRouterFragment_to_setPinFragment)
+            }
         }
     }
 }

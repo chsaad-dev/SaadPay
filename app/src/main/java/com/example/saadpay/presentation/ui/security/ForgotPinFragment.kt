@@ -28,18 +28,19 @@ class ForgotPinFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        if (!isAdded || _binding == null) return
 
         auth = FirebaseAuth.getInstance()
         pinManager = PinPreferenceManager(requireContext())
 
         binding.resetPinBtn.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
+
             val email = binding.emailEditText.text.toString().trim()
             val password = binding.passwordEditText.text.toString()
             val newPin = binding.newPinEditText.text.toString()
             val confirmPin = binding.confirmPinEditText.text.toString()
 
-            // Validation
             if (email.isEmpty() || password.isEmpty() || newPin.isEmpty() || confirmPin.isEmpty()) {
                 Toast.makeText(requireContext(), "All fields are required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -55,7 +56,6 @@ class ForgotPinFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // Disable button while processing
             binding.resetPinBtn.isEnabled = false
             binding.resetPinBtn.text = "Resetting..."
 
@@ -63,32 +63,36 @@ class ForgotPinFragment : Fragment() {
             val credential = EmailAuthProvider.getCredential(email, password)
 
             if (user != null && user.email == email) {
-                // Re-authenticate current user
                 user.reauthenticate(credential)
                     .addOnSuccessListener {
+                        if (!isAdded || _binding == null) return@addOnSuccessListener
                         pinManager.savePin(newPin)
                         Toast.makeText(requireContext(), "PIN reset successfully", Toast.LENGTH_SHORT).show()
                         requireActivity().onBackPressedDispatcher.onBackPressed()
                     }
                     .addOnFailureListener {
+                        if (!isAdded || _binding == null) return@addOnFailureListener
                         Toast.makeText(requireContext(), "Auth failed: ${it.message}", Toast.LENGTH_SHORT).show()
                     }
                     .addOnCompleteListener {
+                        if (!isAdded || _binding == null) return@addOnCompleteListener
                         binding.resetPinBtn.isEnabled = true
                         binding.resetPinBtn.text = "Reset PIN"
                     }
             } else {
-                // Sign in explicitly if not already authenticated
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener {
+                        if (!isAdded || _binding == null) return@addOnSuccessListener
                         pinManager.savePin(newPin)
                         Toast.makeText(requireContext(), "PIN reset successfully", Toast.LENGTH_SHORT).show()
                         requireActivity().onBackPressedDispatcher.onBackPressed()
                     }
                     .addOnFailureListener {
+                        if (!isAdded || _binding == null) return@addOnFailureListener
                         Toast.makeText(requireContext(), "Auth failed: ${it.message}", Toast.LENGTH_SHORT).show()
                     }
                     .addOnCompleteListener {
+                        if (!isAdded || _binding == null) return@addOnCompleteListener
                         binding.resetPinBtn.isEnabled = true
                         binding.resetPinBtn.text = "Reset PIN"
                     }

@@ -30,13 +30,15 @@ class SetPinFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (!isAdded || _binding == null) return
         super.onViewCreated(view, savedInstanceState)
 
         pinPreferenceManager = PinPreferenceManager(requireContext())
-
         setupPinBoxes()
 
         binding.savePinButton.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
+
             val pin = getEnteredPin()
             val confirmPin = getConfirmedPin()
 
@@ -52,12 +54,10 @@ class SetPinFragment : Fragment() {
             }
 
             pinPreferenceManager.savePin(pin)
-            pinPreferenceManager.setBiometricEnabled(true) // Biometric is now enabled for this user
+            pinPreferenceManager.setBiometricEnabled(true)
 
             Toast.makeText(requireContext(), "PIN saved successfully", Toast.LENGTH_SHORT).show()
-
             findNavController().navigate(R.id.action_setPinFragment_to_dashboardFragment)
-
         }
     }
 
@@ -74,8 +74,10 @@ class SetPinFragment : Fragment() {
     private fun moveFocus(from: EditText, to: EditText) {
         from.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                if (!isAdded || _binding == null) return
                 if (from.text.length == 1) to.requestFocus()
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -96,6 +98,8 @@ class SetPinFragment : Fragment() {
     }
 
     private fun clearPins() {
+        if (!isAdded || _binding == null) return
+
         listOf(
             binding.pin1, binding.pin2, binding.pin3, binding.pin4,
             binding.confirmPin1, binding.confirmPin2, binding.confirmPin3, binding.confirmPin4

@@ -45,13 +45,6 @@ class FirestoreRepository {
             }
     }
 
-    fun updateBalance(uid: String, newBalance: Double, onResult: (Boolean) -> Unit) {
-        db.collection("users").document(uid)
-            .update("balance", newBalance)
-            .addOnSuccessListener { onResult(true) }
-            .addOnFailureListener { onResult(false) }
-    }
-
     fun sendMoney(receiverEmail: String, amount: Double, onResult: (Boolean, String) -> Unit) {
         val senderId = getCurrentUserId() ?: return
 
@@ -116,7 +109,6 @@ class FirestoreRepository {
         }
     }
 
-
     fun loadMoney(amount: Double, onResult: (Boolean) -> Unit) {
         val uid = getCurrentUserId() ?: return
 
@@ -167,7 +159,6 @@ class FirestoreRepository {
         }
     }
 
-
     fun fetchTransactionsForCurrentUser(onResult: (List<Transaction>) -> Unit) {
         val uid = getCurrentUserId()
         if (uid == null) {
@@ -196,56 +187,6 @@ class FirestoreRepository {
                 onResult(emptyList())
             }
     }
-
-    suspend fun getUserTransactions(userId: String): List<Transaction> {
-        return try {
-            val sentSnapshot = db.collection("transactions")
-                .whereEqualTo("senderId", userId)
-                .get()
-                .await()
-
-            val receivedSnapshot = db.collection("transactions")
-                .whereEqualTo("receiverId", userId)
-                .get()
-                .await()
-
-            val sentTransactions = sentSnapshot.toObjects(Transaction::class.java)
-            val receivedTransactions = receivedSnapshot.toObjects(Transaction::class.java)
-
-            (sentTransactions + receivedTransactions).sortedByDescending { it.timestamp }
-        } catch (e: Exception) {
-            Log.e("FirestoreRepository", "Error in getUserTransactions: ${e.message}")
-            emptyList()
-        }
-    }
-
-    fun getTransactionHistory(callback: (List<Transaction>, Exception?) -> Unit) {
-        val uid = getCurrentUserId()
-        if (uid == null) {
-            callback(emptyList(), Exception("User not logged in"))
-            return
-        }
-
-        db.collection("transactions")
-            .whereArrayContains("participants", uid)
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { snapshot ->
-                val txns = snapshot.documents.mapNotNull {
-                    try {
-                        it.toObject(Transaction::class.java)
-                    } catch (e: Exception) {
-                        Log.e("FirestoreRepository", "Error parsing transaction: ${e.message}")
-                        null
-                    }
-                }
-                callback(txns, null)
-            }
-            .addOnFailureListener { e ->
-                callback(emptyList(), e)
-            }
-    }
-
     // ------------------ CARD METHODS --------------------
 
     fun getUserCard(userId: String, onResult: (CardModel?) -> Unit) {
@@ -260,17 +201,6 @@ class FirestoreRepository {
                 onResult(null)
             }
     }
-
-    fun updateUserCard(userId: String, card: CardModel, onResult: (Boolean) -> Unit) {
-        db.collection("cards").document(userId)
-            .set(card)
-            .addOnSuccessListener { onResult(true) }
-            .addOnFailureListener {
-                Log.e("FirestoreRepository", "Error updating card: ${it.message}")
-                onResult(false)
-            }
-    }
-
     // ------------------ USER LISTENER --------------------
 
     fun listenToCurrentUser(onUserUpdate: (User?) -> Unit): ListenerRegistration? {

@@ -26,15 +26,15 @@ class SendMoneyFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (!isAdded || _binding == null) return
+
         // ✅ Setup ViewPager with Tips
         val tips = listOf(
             "💡 Always double-check the recipient’s email.\n\n🚀 Transfers are instant and cannot be reversed.\n\n🔄 Make sure you enter the correct amount.",
             "🔐 Never share your password or OTP.\n\n✅ Verify the email before hitting Send.\n\n🛑 Avoid sending to unknown users."
         )
 
-
         binding.tipsViewPager.adapter = InfoPagerAdapter(tips)
-
         binding.tipsViewPager.apply {
             offscreenPageLimit = 1
             setPageTransformer { page, position ->
@@ -43,8 +43,9 @@ class SendMoneyFragment : Fragment() {
             }
         }
 
-        // ✅ Handle Button Click
         binding.sendButton.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
+
             val email = binding.emailEditText.text.toString().trim()
             val amountText = binding.amountEditText.text.toString().trim()
             val amount = amountText.toDoubleOrNull()
@@ -57,10 +58,12 @@ class SendMoneyFragment : Fragment() {
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            if (!isAdded || _binding == null) return@observe
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
 
         viewModel.sendSuccess.observe(viewLifecycleOwner) { success ->
+            if (!isAdded || _binding == null) return@observe
             if (success) {
                 Toast.makeText(requireContext(), "Money sent successfully", Toast.LENGTH_SHORT).show()
                 requireActivity().onBackPressedDispatcher.onBackPressed()

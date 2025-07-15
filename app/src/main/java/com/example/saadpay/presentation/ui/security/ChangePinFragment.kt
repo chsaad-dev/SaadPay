@@ -25,11 +25,13 @@ class ChangePinFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        if (!isAdded || _binding == null) return
 
         pinManager = PinPreferenceManager(requireContext())
 
         binding.changePinBtn.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
+
             val oldPin = binding.oldPinEditText.text.toString()
             val newPin = binding.newPinEditText.text.toString()
             val confirmPin = binding.confirmPinEditText.text.toString()
@@ -51,8 +53,6 @@ class ChangePinFragment : Fragment() {
                 }
             }
         }
-
-
     }
 
     override fun onDestroyView() {

@@ -25,7 +25,7 @@ class LoadMoneyFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        if (!isAdded || _binding == null) return
 
         val slides = listOf(
             "  Tips:\n\n💡 You can load any amount just enter amount and click button.\n\n💸 Money is added instantly to your wallet.",
@@ -41,24 +41,26 @@ class LoadMoneyFragment : Fragment() {
             }
         }
 
-        // ✅ Load Money Button Click
         binding.loadButton.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
+
             val amountText = binding.amountEditText.text.toString().trim()
             val amount = amountText.toDoubleOrNull()
 
-            if (!amountText.isNullOrEmpty() && amount != null && amount > 0) {
+            if (amount != null && amount > 0) {
                 viewModel.loadMoney(amount)
             } else {
                 Toast.makeText(requireContext(), "Enter valid amount", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // ✅ Observers
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            if (!isAdded || _binding == null) return@observe
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
 
         viewModel.loadSuccess.observe(viewLifecycleOwner) { success ->
+            if (!isAdded || _binding == null) return@observe
             if (success) {
                 Toast.makeText(requireContext(), "Money loaded successfully", Toast.LENGTH_SHORT).show()
                 requireActivity().onBackPressedDispatcher.onBackPressed()

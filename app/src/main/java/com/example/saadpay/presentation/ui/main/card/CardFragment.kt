@@ -33,7 +33,11 @@ class CardFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (!isAdded || _binding == null) return
+
         FirebaseAuth.getInstance().currentUser?.reload()?.addOnCompleteListener {
+            if (!isAdded || _binding == null) return@addOnCompleteListener
+
             val firebaseUser = FirebaseAuth.getInstance().currentUser
             val userName = firebaseUser?.displayName?.takeIf { it.isNotBlank() }
                 ?: firebaseUser?.email?.substringBefore("@")?.replaceFirstChar { it.uppercase() }
@@ -43,12 +47,14 @@ class CardFragment : Fragment() {
             cards.add(CardModel("Physical", userName))
 
             adapter = CardPagerAdapter(cards) { position, isVisible ->
+                if (!isAdded || _binding == null) return@CardPagerAdapter
                 cards[position].isVisible = isVisible
                 adapter.notifyItemChanged(position)
 
                 if (isVisible) {
                     hideRunnable?.let { autoHideHandler.removeCallbacks(it) }
                     hideRunnable = Runnable {
+                        if (!isAdded || _binding == null) return@Runnable
                         cards[position].isVisible = false
                         adapter.notifyItemChanged(position)
                     }
@@ -64,30 +70,31 @@ class CardFragment : Fragment() {
                     page.scaleY = 1 - (0.1f * kotlin.math.abs(position))
                 }
             }
-
-
         }
 
         binding.switchWithdraw.setOnCheckedChangeListener { _, isChecked ->
+            if (!isAdded || _binding == null) return@setOnCheckedChangeListener
             val message = if (isChecked) "Withdraw Enabled" else "Withdraw Disabled"
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
 
         binding.switchInternational.setOnCheckedChangeListener { _, isChecked ->
+            if (!isAdded || _binding == null) return@setOnCheckedChangeListener
             val message = if (isChecked) "International Transactions Enabled" else "International Transactions Disabled"
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
 
         binding.switchInShop.setOnCheckedChangeListener { _, isChecked ->
+            if (!isAdded || _binding == null) return@setOnCheckedChangeListener
             val message = if (isChecked) "Enabled In-Shop Transactions" else "Disabled In-Shop Transactions"
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
 
         binding.switchBlock.setOnCheckedChangeListener { _, isChecked ->
+            if (!isAdded || _binding == null) return@setOnCheckedChangeListener
             val message = if (isChecked) "Your Card is Blocked Temporarily" else "Your Card is Unblocked"
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
-
     }
 
     override fun onDestroyView() {

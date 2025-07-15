@@ -37,11 +37,12 @@ class PinLockFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (!isAdded || _binding == null) return
         pinPreferenceManager = PinPreferenceManager(requireContext())
 
         val storedPin = pinPreferenceManager.getPin()
         if (storedPin == null) {
-            // First time user → no PIN saved → navigate to Set PIN
+            if (!isAdded || _binding == null) return
             findNavController().navigate(R.id.action_pinLockFragment_to_setPinFragment)
             return
         }
@@ -53,7 +54,9 @@ class PinLockFragment : Fragment() {
         }
 
         binding.retryBiometric.setOnClickListener {
-            biometricPrompt.authenticate(promptInfo)
+            if (::biometricPrompt.isInitialized) {
+                biometricPrompt.authenticate(promptInfo)
+            }
         }
 
         binding.unlockButton.setOnClickListener {
@@ -68,11 +71,11 @@ class PinLockFragment : Fragment() {
 
         binding.pin4.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                if (!isAdded || _binding == null) return
                 if (getEnteredPin().length == 4) {
                     validatePinAndNavigate()
                 }
             }
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -81,15 +84,16 @@ class PinLockFragment : Fragment() {
     private fun moveFocus(from: EditText, to: EditText) {
         from.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                if (!isAdded || _binding == null) return
                 if (from.text.length == 1) to.requestFocus()
             }
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 
     private fun getEnteredPin(): String {
+        if (!isAdded || _binding == null) return ""
         return binding.pin1.text.toString() +
                 binding.pin2.text.toString() +
                 binding.pin3.text.toString() +
@@ -97,6 +101,7 @@ class PinLockFragment : Fragment() {
     }
 
     private fun clearPinBoxes() {
+        if (!isAdded || _binding == null) return
         binding.pin1.text.clear()
         binding.pin2.text.clear()
         binding.pin3.text.clear()
@@ -105,6 +110,7 @@ class PinLockFragment : Fragment() {
     }
 
     private fun validatePinAndNavigate() {
+        if (!isAdded || _binding == null) return
         val enteredPin = getEnteredPin()
         val storedPin = pinPreferenceManager.getPin()
 
@@ -122,17 +128,20 @@ class PinLockFragment : Fragment() {
         biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
+                if (!isAdded || _binding == null) return
                 Toast.makeText(requireContext(), "Fingerprint recognized!", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_pinLockFragment_to_dashboardFragment)
             }
 
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
+                if (!isAdded || _binding == null) return
                 Toast.makeText(requireContext(), "Biometric error: $errString", Toast.LENGTH_SHORT).show()
             }
 
             override fun onAuthenticationFailed() {
                 super.onAuthenticationFailed()
+                if (!isAdded || _binding == null) return
                 Toast.makeText(requireContext(), "Fingerprint not recognized", Toast.LENGTH_SHORT).show()
             }
         })
@@ -149,6 +158,7 @@ class PinLockFragment : Fragment() {
         ) {
             biometricPrompt.authenticate(promptInfo)
         } else {
+            if (!isAdded || _binding == null) return
             binding.retryBiometric.visibility = View.GONE
         }
     }

@@ -33,6 +33,8 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (!isAdded || _binding == null) return
+
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         pinPreferenceManager = PinPreferenceManager(requireContext())
@@ -42,6 +44,7 @@ class ProfileFragment : Fragment() {
         auth.currentUser?.uid?.let { uid ->
             firestore.collection("users").document(uid).get()
                 .addOnSuccessListener { doc ->
+                    if (!isAdded || _binding == null) return@addOnSuccessListener
                     binding.profileNameTextView.text = doc.getString("name") ?: "N/A"
                     binding.profileEmailTextView.text = doc.getString("email") ?: "N/A"
                 }
@@ -52,6 +55,7 @@ class ProfileFragment : Fragment() {
         updateStatusText(isEnabled)
 
         binding.biometricSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (!isAdded || _binding == null) return@setOnCheckedChangeListener
             pinPreferenceManager.setBiometricEnabled(isChecked)
             updateStatusText(isChecked)
             Toast.makeText(
@@ -61,16 +65,18 @@ class ProfileFragment : Fragment() {
             ).show()
         }
 
-        // ✅ Navigate using NavController
         binding.changePinCard.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
             findNavController().navigate(R.id.action_profileFragment_to_changePinFragment)
         }
 
         binding.forgotPinCard.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
             findNavController().navigate(R.id.action_profileFragment_to_forgotPinFragment)
         }
 
         binding.helpSupportCard.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "message/rfc822"
                 putExtra(Intent.EXTRA_EMAIL, arrayOf("saadw7751@gmail.com"))
@@ -83,18 +89,23 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // Terms still uses manual transaction (not in nav_graph)
         binding.termsPrivacyCard.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
             findNavController().navigate(R.id.action_profileFragment_to_termsPrivacyFragment)
         }
 
-        val versionName = requireContext().packageManager
-            .getPackageInfo(requireContext().packageName, 0).versionName
-        val versionCode = requireContext().packageManager
-            .getPackageInfo(requireContext().packageName, 0).longVersionCode
-        binding.appVersionTextView.text = "Version $versionName (Build $versionCode)"
+        try {
+            val versionName = requireContext().packageManager
+                .getPackageInfo(requireContext().packageName, 0).versionName
+            val versionCode = requireContext().packageManager
+                .getPackageInfo(requireContext().packageName, 0).longVersionCode
+            binding.appVersionTextView.text = "Version $versionName (Build $versionCode)"
+        } catch (e: Exception) {
+            if (isAdded) Toast.makeText(requireContext(), "Version info error", Toast.LENGTH_SHORT).show()
+        }
 
         binding.logoutCard.setOnClickListener {
+            if (!isAdded || _binding == null) return@setOnClickListener
             auth.signOut()
             startActivity(Intent(requireContext(), LoginActivity::class.java))
             requireActivity().finish()
@@ -102,6 +113,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun updateStatusText(isEnabled: Boolean) {
+        if (!isAdded || _binding == null) return
         binding.fingerprintStatusTextView.text =
             if (isEnabled) "Fingerprint is enabled ✅" else "Fingerprint is disabled ❌"
     }
