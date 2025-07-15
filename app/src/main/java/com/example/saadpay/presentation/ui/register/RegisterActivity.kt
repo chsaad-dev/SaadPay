@@ -12,7 +12,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.saadpay.databinding.ActivityRegisterBinding
 import com.example.saadpay.presentation.ui.login.LoginActivity
-import com.example.saadpay.presentation.ui.main.MainActivity
 import com.example.saadpay.presentation.ui.main.profile.TermsPrivacyFragment
 import com.example.saadpay.presentation.viewmodel.RegisterViewModel
 
@@ -53,7 +52,8 @@ class RegisterActivity : AppCompatActivity() {
 
         viewModel.registerSuccess.observe(this) { success ->
             if (success) {
-                startActivity(Intent(this, MainActivity::class.java))
+                Toast.makeText(this, "Verification email sent. Please check your Inbox or Spam Folder.", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             } else {
                 Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show()
@@ -70,7 +70,7 @@ class RegisterActivity : AppCompatActivity() {
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 supportFragmentManager.beginTransaction()
-                    .replace(android.R.id.content, TermsPrivacyFragment()) // You can use R.id.nav_host_fragment if inside a layout
+                    .replace(android.R.id.content, TermsPrivacyFragment())
                     .addToBackStack(null)
                     .commit()
             }

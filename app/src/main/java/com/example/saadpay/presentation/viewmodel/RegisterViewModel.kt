@@ -27,15 +27,18 @@ class RegisterViewModel : ViewModel() {
                     .build()
 
                 firebaseUser.updateProfile(profileUpdates).addOnCompleteListener {
-                    val user = User(uid, name, email, 0.0)
-                    db.collection("users").document(uid)
-                        .set(user)
-                        .addOnSuccessListener { _registerSuccess.value = true }
-                        .addOnFailureListener { _registerSuccess.value = false }
+                    firebaseUser.sendEmailVerification().addOnCompleteListener { verifyTask ->
+                        if (verifyTask.isSuccessful) {
+                            _registerSuccess.value = true
+                        } else {
+                            _registerSuccess.value = false
+                        }
+                    }
                 }
             } else {
                 _registerSuccess.value = false
             }
         }
     }
+
 }

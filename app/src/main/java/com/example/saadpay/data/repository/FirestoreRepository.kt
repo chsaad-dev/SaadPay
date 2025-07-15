@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class FirestoreRepository {
@@ -29,6 +28,23 @@ class FirestoreRepository {
             }
             .addOnFailureListener { e ->
                 onResult(null, e)
+            }
+    }
+    fun saveUserIfNotExists(user: User, onResult: (Boolean) -> Unit) {
+        db.collection("users").document(user.uid)
+            .get()
+            .addOnSuccessListener { doc ->
+                if (!doc.exists()) {
+                    db.collection("users").document(user.uid)
+                        .set(user)
+                        .addOnSuccessListener { onResult(true) }
+                        .addOnFailureListener { onResult(false) }
+                } else {
+                    onResult(true) // Already exists
+                }
+            }
+            .addOnFailureListener {
+                onResult(false)
             }
     }
 
@@ -103,6 +119,7 @@ class FirestoreRepository {
                 }.addOnSuccessListener {
                     onResult(true, "Success")
                 }.addOnFailureListener { e ->
+                    Log.e("FirestoreRepository", "Send money failed: ${e.message}", e)
                     onResult(false, e.message ?: "Transaction failed")
                 }
             }
