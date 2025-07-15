@@ -34,7 +34,7 @@ SaadPay is a sleek, modern **digital wallet application** designed to simulate m
 
 | Dashboard | Send Money | Card Screen | Profile Screen |
 |-----------|------------|-------------|
-| ![Screenshot1](screenshots/dashboard.png) | ![Screenshot2](screenshots/send_money.png) | ![Screenshot3](screenshots/card_screen.png) | ![Screenshot4](screenshots/profile_screen.png) |
+| ![Screenshot1](screenshots/dashboard.jpg) | ![Screenshot2](screenshots/card_screen.jpg) | ![Screenshot3](screenshots/transaction.jpg) | ![Screenshot4](screenshots/profile_screen.jpg) |
 
 
 ---
