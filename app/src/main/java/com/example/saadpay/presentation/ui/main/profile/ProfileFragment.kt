@@ -85,10 +85,7 @@ class ProfileFragment : Fragment() {
 
         // Terms still uses manual transaction (not in nav_graph)
         binding.termsPrivacyCard.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, TermsPrivacyFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_profileFragment_to_termsPrivacyFragment)
         }
 
         val versionName = requireContext().packageManager

@@ -53,7 +53,6 @@
             app:destination="@id/pinLockFragment"
             app:popUpTo="@id/setPinFragment"
             app:popUpToInclusive="true" />
-        <!-- ✅ Corrected placement: add this here -->
         <action
             android:id="@+id/action_setPinFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment"
@@ -86,16 +85,13 @@
         android:name="com.example.saadpay.presentation.ui.main.home.DashboardFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard">
-
         <action
             android:id="@+id/action_dashboardFragment_to_sendMoneyFragment"
             app:destination="@id/sendMoneyFragment" />
-
         <action
             android:id="@+id/action_dashboardFragment_to_loadMoneyFragment"
             app:destination="@id/loadMoneyFragment" />
     </fragment>
-
 
     <fragment
         android:id="@+id/cardFragment"
@@ -126,14 +122,21 @@
         android:name="com.example.saadpay.presentation.ui.main.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile">
-
         <action
             android:id="@+id/action_profileFragment_to_changePinFragment"
             app:destination="@id/changePinFragment" />
-
         <action
             android:id="@+id/action_profileFragment_to_forgotPinFragment"
             app:destination="@id/forgotPinFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_termsPrivacyFragment"
+            app:destination="@id/termsPrivacyFragment" />
     </fragment>
 
+    <!-- 📄 Terms & Privacy -->
+    <fragment
+        android:id="@+id/termsPrivacyFragment"
+        android:name="com.example.saadpay.presentation.ui.main.profile.TermsPrivacyFragment"
+        android:label="Terms &amp; Privacy"
+        tools:layout="@layout/fragment_terms_privacy" />
 </navigation>
