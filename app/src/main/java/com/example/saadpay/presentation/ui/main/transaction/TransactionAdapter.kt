@@ -3,8 +3,11 @@ package com.example.saadpay.presentation.ui.main.transaction
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import android.graphics.Color
+
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.saadpay.R
 import com.example.saadpay.databinding.ItemTransactionBinding
 import com.example.saadpay.databinding.ItemTransactionHeaderBinding
 import com.example.saadpay.domain.model.Transaction
@@ -62,10 +65,42 @@ class TransactionAdapter : ListAdapter<TransactionListItem, RecyclerView.ViewHol
         RecyclerView.ViewHolder(binding.root) {
         fun bind(transaction: Transaction) {
             binding.amountTextView.text = "Rs. %.2f".format(transaction.amount)
-            binding.typeTextView.text = getTypeLabel(transaction)
-            binding.dateTextView.text =
-                SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()).format(Date(transaction.timestamp))
+            binding.dateTextView.text = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()).format(Date(transaction.timestamp))
+
+            val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+            val label: String
+            val iconRes: Int
+            val colorHex: String
+
+            when {
+                transaction.senderId == currentUserId && transaction.receiverId == currentUserId -> {
+                    label = "Loaded from SaadPay"
+                    iconRes = R.drawable.ic_wallet
+                    colorHex = "#1976D2" // Blue
+                }
+                transaction.senderId == currentUserId -> {
+                    label = "Sent to ${transaction.receiverName.ifBlank { "Unknown" }}"
+                    iconRes = R.drawable.ic_send
+                    colorHex = "#D32F2F" // Red
+                }
+                transaction.receiverId == currentUserId -> {
+                    label = "Received from ${transaction.senderName.ifBlank { "Unknown" }}"
+                    iconRes = R.drawable.ic_received
+                    colorHex = "#388E3C" // Green
+                }
+                else -> {
+                    label = "Transaction"
+                    iconRes = R.drawable.ic_transaction
+                    colorHex = "#555555"
+                }
+            }
+
+            binding.typeTextView.text = label
+            binding.amountTextView.setTextColor(Color.parseColor(colorHex))
+            binding.typeTextView.setTextColor(Color.parseColor(colorHex))
+            binding.transactionIcon.setImageResource(iconRes)
         }
+
 
         private fun getTypeLabel(txn: Transaction): String {
             val currentUserId = FirebaseAuth.getInstance().currentUser?.uid

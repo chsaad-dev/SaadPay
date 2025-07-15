@@ -4,28 +4,29 @@
     android:id="@+id/transactionHistoryLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
     android:padding="16dp">
 
-    <!-- Title -->
     <TextView
         android:id="@+id/transactionHistoryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Transaction History"
-        android:textSize="22sp"
+        android:textSize="21sp"
         android:textStyle="bold"
+        android:textColor="@color/primaryColor"
+        android:layout_marginTop="5dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Filter Spinner -->
     <Spinner
         android:id="@+id/filterSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/transactionHistoryTitle"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
-    <!-- Start Date Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/startDateBtn"
         android:layout_width="0dp"
@@ -37,7 +38,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp" />
 
-    <!-- End Date Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/endDateBtn"
         android:layout_width="0dp"
@@ -49,7 +49,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginStart="8dp" />
 
-    <!-- Export PDF Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/exportPdfBtn"
         android:layout_width="match_parent"
@@ -65,20 +64,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp" />
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@id/exportPdfBtn"
+        android:paddingBottom="70dp"
         app:layout_constraintBottom_toTopOf="@id/emptyView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/exportPdfBtn" />
 
-    <!-- Empty View -->
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"

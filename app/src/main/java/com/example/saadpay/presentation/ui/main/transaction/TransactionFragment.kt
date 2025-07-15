@@ -12,6 +12,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.saadpay.R
 import com.example.saadpay.databinding.FragmentTransactionHistoryBinding
 import com.example.saadpay.domain.model.Transaction
 import com.example.saadpay.presentation.viewmodel.TransactionHistoryViewModel
@@ -78,8 +79,14 @@ class TransactionFragment : Fragment() {
 
     private fun setupFilterSpinner() {
         val options = listOf("All", "Send", "Receive", "Load")
-        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, options)
+        val spinnerAdapter = ArrayAdapter(
+            requireContext(),
+            R.layout.spinner_item,
+            options
+        )
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         binding.filterSpinner.adapter = spinnerAdapter
+
 
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {

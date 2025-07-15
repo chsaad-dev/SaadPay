@@ -61,87 +61,112 @@ class FirestoreRepository {
                 return@getUserByEmail
             }
 
-            val senderRef = db.collection("users").document(senderId)
-            val receiverRef = db.collection("users").document(receiverUser.uid)
+            getCurrentUser { senderUser, _ ->
+                if (senderUser == null) {
+                    onResult(false, "Sender not found")
+                    return@getCurrentUser
+                }
 
-            db.runTransaction { transaction ->
-                val senderSnap = transaction.get(senderRef)
-                val receiverSnap = transaction.get(receiverRef)
+                val senderRef = db.collection("users").document(senderId)
+                val receiverRef = db.collection("users").document(receiverUser.uid)
 
-                val senderBalance = senderSnap.getDouble("balance") ?: 0.0
-                val receiverBalance = receiverSnap.getDouble("balance") ?: 0.0
+                db.runTransaction { transaction ->
+                    val senderSnap = transaction.get(senderRef)
+                    val receiverSnap = transaction.get(receiverRef)
 
-                if (senderBalance < amount) throw Exception("Insufficient balance")
+                    val senderBalance = senderSnap.getDouble("balance") ?: 0.0
+                    val receiverBalance = receiverSnap.getDouble("balance") ?: 0.0
 
-                transaction.update(senderRef, "balance", senderBalance - amount)
-                transaction.update(receiverRef, "balance", receiverBalance + amount)
+                    if (senderBalance < amount) throw Exception("Insufficient balance")
 
-                val txnId = UUID.randomUUID().toString()
-                val transactionData = Transaction(
-                    id = txnId,
-                    senderId = senderId,
-                    receiverId = receiverUser.uid,
-                    amount = amount,
-                    timestamp = System.currentTimeMillis(),
-                    type = "Send"
-                )
+                    transaction.update(senderRef, "balance", senderBalance - amount)
+                    transaction.update(receiverRef, "balance", receiverBalance + amount)
 
-                val txnMap = mapOf(
-                    "id" to transactionData.id,
-                    "senderId" to transactionData.senderId,
-                    "receiverId" to transactionData.receiverId,
-                    "amount" to transactionData.amount,
-                    "timestamp" to transactionData.timestamp,
-                    "type" to transactionData.type,
-                    "participants" to listOf(senderId, receiverUser.uid)
-                )
+                    val txnId = UUID.randomUUID().toString()
+                    val transactionData = Transaction(
+                        id = txnId,
+                        senderId = senderId,
+                        receiverId = receiverUser.uid,
+                        senderName = senderUser.name,
+                        receiverName = receiverUser.name,
+                        amount = amount,
+                        timestamp = System.currentTimeMillis(),
+                        type = "Send"
+                    )
 
-                transaction.set(db.collection("transactions").document(txnId), txnMap)
-            }.addOnSuccessListener {
-                onResult(true, "Success")
-            }.addOnFailureListener { e ->
-                onResult(false, e.message ?: "Transaction failed")
+                    val txnMap = mapOf(
+                        "id" to transactionData.id,
+                        "senderId" to transactionData.senderId,
+                        "receiverId" to transactionData.receiverId,
+                        "senderName" to transactionData.senderName,
+                        "receiverName" to transactionData.receiverName,
+                        "amount" to transactionData.amount,
+                        "timestamp" to transactionData.timestamp,
+                        "type" to transactionData.type,
+                        "participants" to listOf(senderId, receiverUser.uid)
+                    )
+
+                    transaction.set(db.collection("transactions").document(txnId), txnMap)
+                }.addOnSuccessListener {
+                    onResult(true, "Success")
+                }.addOnFailureListener { e ->
+                    onResult(false, e.message ?: "Transaction failed")
+                }
             }
         }
     }
 
+
     fun loadMoney(amount: Double, onResult: (Boolean) -> Unit) {
         val uid = getCurrentUserId() ?: return
-        val userRef = db.collection("users").document(uid)
 
-        db.runTransaction { transaction ->
-            val snapshot = transaction.get(userRef)
-            val currentBalance = snapshot.getDouble("balance") ?: 0.0
-            val newBalance = currentBalance + amount
-            transaction.update(userRef, "balance", newBalance)
+        getCurrentUser { user, _ ->
+            if (user == null) {
+                onResult(false)
+                return@getCurrentUser
+            }
 
-            val txnId = UUID.randomUUID().toString()
-            val txn = Transaction(
-                id = txnId,
-                senderId = uid,
-                receiverId = uid,
-                amount = amount,
-                timestamp = System.currentTimeMillis(),
-                type = "Load"
-            )
+            val userRef = db.collection("users").document(uid)
 
-            val txnMap = mapOf(
-                "id" to txn.id,
-                "senderId" to txn.senderId,
-                "receiverId" to txn.receiverId,
-                "amount" to txn.amount,
-                "timestamp" to txn.timestamp,
-                "type" to txn.type,
-                "participants" to listOf(uid)
-            )
+            db.runTransaction { transaction ->
+                val snapshot = transaction.get(userRef)
+                val currentBalance = snapshot.getDouble("balance") ?: 0.0
+                val newBalance = currentBalance + amount
+                transaction.update(userRef, "balance", newBalance)
 
-            transaction.set(db.collection("transactions").document(txnId), txnMap)
-        }.addOnSuccessListener {
-            onResult(true)
-        }.addOnFailureListener {
-            onResult(false)
+                val txnId = UUID.randomUUID().toString()
+                val txn = Transaction(
+                    id = txnId,
+                    senderId = uid,
+                    receiverId = uid,
+                    senderName = user.name,
+                    receiverName = user.name,
+                    amount = amount,
+                    timestamp = System.currentTimeMillis(),
+                    type = "Load"
+                )
+
+                val txnMap = mapOf(
+                    "id" to txn.id,
+                    "senderId" to txn.senderId,
+                    "receiverId" to txn.receiverId,
+                    "senderName" to txn.senderName,
+                    "receiverName" to txn.receiverName,
+                    "amount" to txn.amount,
+                    "timestamp" to txn.timestamp,
+                    "type" to txn.type,
+                    "participants" to listOf(uid)
+                )
+
+                transaction.set(db.collection("transactions").document(txnId), txnMap)
+            }.addOnSuccessListener {
+                onResult(true)
+            }.addOnFailureListener {
+                onResult(false)
+            }
         }
     }
+
 
     fun fetchTransactionsForCurrentUser(onResult: (List<Transaction>) -> Unit) {
         val uid = getCurrentUserId()
