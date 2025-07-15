@@ -1,6 +1,7 @@
 package com.example.saadpay.presentation.ui.main.profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.example.saadpay.databinding.FragmentProfileBinding
 import com.example.saadpay.presentation.ui.login.LoginActivity
 import com.example.saadpay.presentation.ui.security.ChangePinFragment
 import com.example.saadpay.presentation.ui.security.ForgotPinFragment
+import com.example.saadpay.presentation.ui.main.profile.TermsPrivacyFragment
 import com.example.saadpay.utils.PinPreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -82,6 +84,33 @@ class ProfileFragment : Fragment() {
         binding.forgotPinCard.setOnClickListener {
             navigateTo(ForgotPinFragment())
         }
+
+        binding.helpSupportCard.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "message/rfc822"
+                putExtra(Intent.EXTRA_EMAIL, arrayOf("saadw7751@gmail.com"))
+                setPackage("com.google.android.gm")
+            }
+
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Gmail app not found", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.termsPrivacyCard.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, TermsPrivacyFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        val pInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
+        val versionName = pInfo.versionName
+        val versionCode = pInfo.longVersionCode
+
+        binding.appVersionTextView.text = "Version $versionName (Build $versionCode)"
 
         binding.logoutCard.setOnClickListener {
             auth.signOut()
