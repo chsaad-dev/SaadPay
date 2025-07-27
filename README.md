@@ -36,7 +36,7 @@ SaadPay is a sleek, modern **digital wallet application** designed to simulate m
 👉 [Download SaadPay APK](https://github.com/chsaad-dev/saadpay/releases/latest)  
 File: `app-release.apk`  
 - Version: `v1.0`
-- Size: ~17 MB
+- Size: ~15 MB
 - Requires: Android 5.0 (Lollipop) or higher
 
 To install, make sure to enable **"Install from Unknown Sources"** in your Android device settings.
