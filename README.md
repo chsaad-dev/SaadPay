@@ -61,6 +61,11 @@ To install, make sure to enable **"Install from Unknown Sources"** in your Andro
 
 ---
 
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+
 ## License & Usage Restrictions
 
 This project is provided **strictly for educational viewing purposes only**.
