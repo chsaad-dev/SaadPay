@@ -30,14 +30,6 @@ SaadPay is a sleek, modern **digital wallet application** designed to simulate m
 
 ---
 
-## 📱 Screenshots
-
-| Dashboard | Send Money | Card Screen | Profile Screen |
-|-----------|------------|-------------|
-| ![Screenshot1](screenshots/dashboard.jpg) | ![Screenshot2](screenshots/card_screen.jpg) | ![Screenshot3](screenshots/transaction.jpg) | ![Screenshot4](screenshots/profile_screen.jpg) |
-
-
----
 
 ## 📦 Download
 
@@ -75,7 +67,6 @@ This project is provided **strictly for educational viewing purposes only**.
 
 You are **not permitted** to:
 - Copy or re-upload this code to public repositories (like GitHub, GitLab, etc.)
-- Redistribute the APK or source without permission
 - Modify and claim it as your own
 
 All rights are reserved by **Muhammad Saad**.
