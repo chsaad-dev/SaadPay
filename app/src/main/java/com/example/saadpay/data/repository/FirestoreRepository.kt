@@ -204,7 +204,6 @@ class FirestoreRepository {
                 onResult(emptyList())
             }
     }
-    // ------------------ CARD METHODS --------------------
 
     fun getUserCard(userId: String, onResult: (CardModel?) -> Unit) {
         db.collection("cards")
@@ -218,7 +217,6 @@ class FirestoreRepository {
                 onResult(null)
             }
     }
-    // ------------------ USER LISTENER --------------------
 
     fun listenToCurrentUser(onUserUpdate: (User?) -> Unit): ListenerRegistration? {
         val currentUser = auth.currentUser ?: return null

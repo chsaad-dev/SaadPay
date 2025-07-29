@@ -5,7 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/pinRouterFragment">
 
-    <!-- ✅ PIN Router Logic -->
     <fragment
         android:id="@+id/pinRouterFragment"
         android:name="com.example.saadpay.presentation.ui.security.PinRouterFragment"
@@ -23,7 +22,6 @@
             app:popUpToInclusive="true" />
     </fragment>
 
-    <!-- 🔐 PIN Lock -->
     <fragment
         android:id="@+id/pinLockFragment"
         android:name="com.example.saadpay.presentation.ui.security.PinLockFragment"
@@ -42,7 +40,6 @@
             app:popUpToInclusive="true" />
     </fragment>
 
-    <!-- 🔐 Set PIN -->
     <fragment
         android:id="@+id/setPinFragment"
         android:name="com.example.saadpay.presentation.ui.security.SetPinFragment"
@@ -60,7 +57,6 @@
             app:popUpToInclusive="true" />
     </fragment>
 
-    <!-- 🔐 Forgot PIN -->
     <fragment
         android:id="@+id/forgotPinFragment"
         android:name="com.example.saadpay.presentation.ui.security.ForgotPinFragment"
@@ -79,7 +75,6 @@
         android:label="Change PIN"
         tools:layout="@layout/fragment_change_pin" />
 
-    <!-- 🌐 Dashboard Tabs -->
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.example.saadpay.presentation.ui.main.home.DashboardFragment"
@@ -133,7 +128,6 @@
             app:destination="@id/termsPrivacyFragment" />
     </fragment>
 
-    <!-- 📄 Terms & Privacy -->
     <fragment
         android:id="@+id/termsPrivacyFragment"
         android:name="com.example.saadpay.presentation.ui.main.profile.TermsPrivacyFragment"

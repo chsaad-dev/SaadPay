@@ -1,5 +1,13 @@
 package com.example.saadpay.presentation.ui.main
 
+/*
+ * MIT License
+ * Copyright (c) 2025 MUHAMMAD SAAD
+ *
+ * See LICENSE file in the project root for full license information.
+ */
+
+
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity

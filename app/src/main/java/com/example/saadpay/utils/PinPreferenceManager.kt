@@ -9,7 +9,7 @@ class PinPreferenceManager(context: Context) {
 
     companion object {
         private const val PREF_FILE = "pin_prefs"
-        private const val KEY_PIN = "user_pin_"     // suffix with UID
+        private const val KEY_PIN = "user_pin_"
         private const val KEY_BIOMETRIC = "biometric_enabled_"
     }
 

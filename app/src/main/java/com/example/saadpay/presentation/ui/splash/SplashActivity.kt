@@ -1,5 +1,13 @@
 package com.example.saadpay.presentation.ui.splash
 
+/*
+ * MIT License
+ * Copyright (c) 2025 MUHAMMAD SAAD
+ *
+ * See LICENSE file in the project root for full license information.
+ */
+
+
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler

@@ -28,7 +28,6 @@ class SendMoneyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (!isAdded || _binding == null) return
 
-        // ✅ Setup ViewPager with Tips
         val tips = listOf(
             "💡 Always double-check the recipient’s email.\n\n🚀 Transfers are instant and cannot be reversed.\n\n🔄 Make sure you enter the correct amount.",
             "🔐 Never share your password or OTP.\n\n✅ Verify the email before hitting Send.\n\n🛑 Avoid sending to unknown users."

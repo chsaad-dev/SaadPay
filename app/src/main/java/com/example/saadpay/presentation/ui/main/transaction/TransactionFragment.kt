@@ -152,7 +152,6 @@ class TransactionFragment : Fragment() {
 
                 val headerColor = DeviceRgb(230, 230, 250)
 
-                // Table headers
                 listOf("Date", "Type", "Amount").forEach {
                     table.addHeaderCell(
                         Cell().add(Paragraph(it).setBold())

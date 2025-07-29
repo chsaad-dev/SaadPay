@@ -13,7 +13,6 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
-        <!-- Profile Image -->
         <ImageView
             android:id="@+id/profileImageView"
             android:layout_width="120dp"
@@ -25,7 +24,6 @@
             android:background="@drawable/bg_profile_circle"
             android:padding="4dp" />
 
-        <!-- Name -->
         <TextView
             android:id="@+id/profileNameTextView"
             android:layout_width="wrap_content"
@@ -35,7 +33,6 @@
             android:textStyle="bold"
             android:textColor="@color/black" />
 
-        <!-- Email -->
         <TextView
             android:id="@+id/profileEmailTextView"
             android:layout_width="wrap_content"
@@ -45,7 +42,6 @@
             android:textColor="@color/primaryColor"
             android:layout_marginBottom="15dp" />
 
-        <!-- Fingerprint Status -->
         <TextView
             android:id="@+id/fingerprintStatusTextView"
             android:layout_width="wrap_content"
@@ -55,7 +51,6 @@
             android:textColor="@color/gray"
             android:layout_marginBottom="6dp" />
 
-        <!-- Biometric Switch Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +83,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Change PIN -->
         <androidx.cardview.widget.CardView
             android:id="@+id/changePinCard"
             android:layout_width="match_parent"
@@ -107,7 +101,6 @@
                 android:padding="16dp" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Forgot PIN -->
         <androidx.cardview.widget.CardView
             android:id="@+id/forgotPinCard"
             android:layout_width="match_parent"
@@ -144,7 +137,6 @@
                 android:padding="16dp" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Terms & Privacy -->
         <androidx.cardview.widget.CardView
             android:id="@+id/termsPrivacyCard"
             android:layout_width="match_parent"
@@ -163,7 +155,6 @@
                 android:padding="16dp" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Logout -->
         <androidx.cardview.widget.CardView
             android:id="@+id/logoutCard"
             android:layout_width="match_parent"

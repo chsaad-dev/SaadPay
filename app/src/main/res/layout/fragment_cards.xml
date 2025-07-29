@@ -8,7 +8,6 @@
     android:padding="20dp"
     android:background="@android:color/white">
 
-    <!-- Title -->
     <TextView
         android:id="@+id/cardsTitle"
         android:layout_width="wrap_content"
@@ -19,7 +18,6 @@
         android:textColor="@color/primaryColor"
         android:layout_marginBottom="16dp" />
 
-    <!-- Switches -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/cardViewPager"
         android:layout_width="match_parent"

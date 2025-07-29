@@ -12,7 +12,6 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <!-- Logo -->
         <ImageView
             android:id="@+id/logoImageView"
             android:layout_width="100dp"
@@ -22,7 +21,6 @@
             android:layout_marginBottom="16dp"
             android:contentDescription="Logo" />
 
-        <!-- Title -->
         <TextView
             android:text="Login to SaadPay"
             android:textSize="24sp"
@@ -33,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <!-- Email -->
         <EditText
             android:id="@+id/emailEditText"
             android:hint="Email"
@@ -48,7 +45,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Password -->
         <EditText
             android:id="@+id/passwordEditText"
             android:hint="Password"
@@ -63,7 +59,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Login Button -->
         <Button
             android:id="@+id/loginButton"
             android:text="Login"
@@ -75,7 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp" />
 
-        <!-- Register Redirect -->
         <TextView
             android:id="@+id/registerTextView"
             android:text="Don't have an account? Register"

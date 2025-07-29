@@ -22,7 +22,6 @@
             android:textStyle="bold"
             android:layout_marginBottom="24dp" />
 
-        <!-- First PIN input -->
         <LinearLayout
             android:id="@+id/pinBoxContainer"
             android:layout_width="wrap_content"
@@ -36,7 +35,6 @@
             <EditText android:id="@+id/pin4" style="@style/PinBoxStyle" />
         </LinearLayout>
 
-        <!-- Confirm PIN input -->
         <LinearLayout
             android:id="@+id/confirmPinBoxContainer"
             android:layout_width="wrap_content"
