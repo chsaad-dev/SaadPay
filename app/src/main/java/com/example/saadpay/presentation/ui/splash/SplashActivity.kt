@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             val user = FirebaseAuth.getInstance().currentUser
-            val intent = if (user != null) {
+            val intent = if (user != null && user.isEmailVerified) {
                 Intent(this, MainActivity::class.java)
             } else {
                 Intent(this, LoginActivity::class.java)

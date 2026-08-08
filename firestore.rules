@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all other reads and writes
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Collection: users
+    match /users/{uid} {
+      // Allow authenticated users to read profiles.
+      // NOTE: Necessary for getUserByEmail() recipient lookups during Send Money flow.
+      allow read: if isAuthenticated();
+
+      // Allow user to create their own user document upon registration/login.
+      allow create: if isOwner(uid);
+
+      // Allow updates to user document.
+      // CLOUD FUNCTION MIGRATION FLAG:
+      // Firestore security rules operate per-document and cannot verify cross-document transactional invariants
+      // (e.g. verifying that a balance update matches a created transaction document in a client-side transaction).
+      // Additionally, during sendMoney(), the sender's client updates the receiver's document balance.
+      // To completely disallow direct client-side balance modifications and guarantee atomic money transfers,
+      // the transfer and load operations MUST be migrated to Firebase Cloud Functions / Admin SDK server-side.
+      allow update: if isAuthenticated() && (
+        isOwner(uid)
+        ||
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['balance']) &&
+          request.resource.data.balance > resource.data.balance
+        )
+      );
+
+      allow delete: if false;
+    }
+
+    // Collection: transactions
+    match /transactions/{txnId} {
+      // A user may only read transactions where their UID is listed in the "participants" array
+      allow read: if isAuthenticated() &&
+        resource.data.participants is list &&
+        request.auth.uid in resource.data.participants;
+
+      // Disallow client updates and deletions to transaction history completely
+      allow update, delete: if false;
+
+      // Allow creation of transaction records if the authenticated user is a participant.
+      // CLOUD FUNCTION MIGRATION FLAG:
+      // Firestore rules cannot mandate that client-side db.runTransaction() created this document.
+      // For full security against forged transaction entries, transaction creation should be moved server-side.
+      allow create: if isAuthenticated() &&
+        request.resource.data.participants is list &&
+        request.auth.uid in request.resource.data.participants;
+    }
+
+    // Collection: cards
+    // NOTE: Referenced in FirestoreRepository.kt (getUserCard()), but currently unpopulated in database.
+    // Basic owner-only rule applied to prevent open access if populated in the future.
+    match /cards/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+  }
+}

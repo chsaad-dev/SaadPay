@@ -61,9 +61,9 @@ dependencies {
 
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
+    // appears unused, Google Sign-In not implemented — confirm before removing
     implementation(libs.play.services.auth)
     implementation(libs.biometric)
-    implementation(libs.androidx.security.crypto.ktx)
 
     implementation("com.itextpdf:kernel:7.1.15")
     implementation("com.itextpdf:layout:7.1.15")
