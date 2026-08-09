@@ -1,109 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@android:color/white">
-
-    <TextView
-        android:id="@+id/cardsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My Cards"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/primaryColor"
-        android:layout_marginBottom="16dp" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/cardViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="24dp"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:paddingStart="1dp"
-        android:paddingEnd="1dp" />
-
-   <LinearLayout
-        android:id="@+id/settingsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_card_settings"
-        android:padding="16dp"
-        android:layout_marginTop="10dp">
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchWithdraw"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enable Withdraw"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="15sp" />
-    </LinearLayout>
-
-   <LinearLayout
-        android:id="@+id/switchInternationalTransactions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_card_settings"
-        android:padding="16dp"
-        android:layout_marginTop="10dp">
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchInternational"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enable International Transactions"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="14sp" />
-    </LinearLayout>
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
-        android:id="@+id/enableInShopPurchase"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/bg_card_settings"
-        android:padding="16dp"
-        android:layout_marginTop="10dp">
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="20dp">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchInShop"
+        <TextView
+            android:id="@+id/cardsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Cards"
+            style="@style/TextAppearance.Fintech.Title"
+            android:layout_marginBottom="16dp" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/cardViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="24dp"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp" />
+
+        <!-- Toggle Row 1: Enable Withdraw -->
+        <LinearLayout
+            android:id="@+id/settingsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enable In-Shop Purchases"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="15sp" />
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_card_settings"
+            android:padding="16dp">
 
-    </LinearLayout>
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchWithdraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enable Withdraw"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:thumbTint="@color/switch_thumb_color"
+                app:trackTint="@color/switch_track_color" />
+        </LinearLayout>
 
-   <LinearLayout
-        android:id="@+id/switchBlockCards"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_card_settings"
-        android:padding="16dp"
-        android:layout_marginTop="10dp">
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchBlock"
+        <!-- Toggle Row 2: Enable International Transactions -->
+        <LinearLayout
+            android:id="@+id/switchInternationalTransactions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Temporarily Block Your Cards"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="15sp" />
-    </LinearLayout>
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_card_settings"
+            android:padding="16dp">
 
-</LinearLayout>
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchInternational"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enable International Transactions"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:thumbTint="@color/switch_thumb_color"
+                app:trackTint="@color/switch_track_color" />
+        </LinearLayout>
+
+        <!-- Toggle Row 3: Enable In-Shop Purchases -->
+        <LinearLayout
+            android:id="@+id/enableInShopPurchase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_card_settings"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchInShop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enable In-Shop Purchases"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:thumbTint="@color/switch_thumb_color"
+                app:trackTint="@color/switch_track_color" />
+        </LinearLayout>
+
+        <!-- Toggle Row 4: Temporarily Block Your Cards (Mild Warning) -->
+        <LinearLayout
+            android:id="@+id/switchBlockCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_card_settings"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchBlock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Temporarily Block Your Cards"
+                android:textColor="@color/error"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:thumbTint="@color/switch_thumb_color"
+                app:trackTint="@color/switch_track_color" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
