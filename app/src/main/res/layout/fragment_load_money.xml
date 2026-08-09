@@ -1,95 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/loadMoneyRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="@color/white">
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="20dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <!-- Top Header Row -->
+        <TextView
+            android:id="@+id/appNameText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
-
-            <TextView
-                android:id="@+id/appNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SaadPay"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/primaryColor"
-                android:layout_alignParentStart="true" />
-        </RelativeLayout>
+            android:text="SaadPay"
+            style="@style/TextAppearance.Fintech.Title"
+            android:layout_marginBottom="16dp" />
 
         <TextView
-            android:text="Load Money"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginLeft="3dp"
-            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/amountEditText"
-            android:hint="Enter amount"
-            android:inputType="numberDecimal"
-            android:drawableStart="@drawable/ic_wallet1"
-            android:drawablePadding="12dp"
-            android:textColor="@color/black"
-            android:textColorHint="#888888"
-            android:background="@drawable/bg_input_rounded_selector"
-            android:padding="16dp"
-            android:layout_marginBottom="24dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/loadButton"
-            android:text="Add to Balance"
-            android:textAllCaps="false"
-            android:backgroundTint="@color/primaryColor"
-            android:textColor="@android:color/white"
-            android:elevation="6dp"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Load Money"
+            style="@style/TextAppearance.Fintech.Title"
             android:layout_marginBottom="24dp" />
 
+        <!-- Enter Amount Field (Surface-filled style) -->
+        <EditText
+            android:id="@+id/amountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_input_surface"
+            android:drawableStart="@drawable/ic_wallet1"
+            android:drawablePadding="12dp"
+            android:hint="Enter amount"
+            android:inputType="numberDecimal"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:textSize="16sp" />
+
+        <!-- Add to Balance Button (Full-width Primary Blue CTA) -->
+        <FrameLayout
+            android:id="@+id/loadButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_button_primary"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Add to Balance"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!-- Progress Bar -->
         <ProgressBar
             android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
 
+        <!-- Tips Section -->
         <TextView
-            android:text="Swipe to View More"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="Swipe to View More Tips"
+            style="@style/TextAppearance.Fintech.Body" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/tipsViewPager"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="32dp"
+            android:layout_height="220dp"
             android:clipToPadding="false"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp" />
 
     </LinearLayout>
 </ScrollView>
