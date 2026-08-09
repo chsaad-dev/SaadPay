@@ -9,83 +9,89 @@
 
     <TextView
         android:id="@+id/transactionHistoryTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Transaction History"
         android:textSize="21sp"
         android:textStyle="bold"
         android:textColor="@color/primaryColor"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/filterSpinner" />
 
     <Spinner
         android:id="@+id/filterSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/transactionHistoryTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="@id/transactionHistoryTitle"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/startDateBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Start Date"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintTop_toBottomOf="@id/transactionHistoryTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/endDateBtn"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintEnd_toStartOf="@id/endDateBtn" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/endDateBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="End Date"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintTop_toBottomOf="@id/transactionHistoryTitle"
         app:layout_constraintStart_toEndOf="@id/startDateBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/exportPdfBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Export PDF"
-        app:icon="@drawable/ic_download"
-        app:iconPadding="8dp"
-        app:iconGravity="textStart"
-        app:cornerRadius="12dp"
         style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Export PDF"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_download"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
         app:layout_constraintTop_toBottomOf="@id/startDateBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/historyRecyclerView"
+    <FrameLayout
+        android:id="@+id/historyContentContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingTop="12dp"
-        android:paddingBottom="70dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/exportPdfBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/emptyView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No transactions yet"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/exportPdfBtn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historyRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="80dp" />
+
+        <TextView
+            android:id="@+id/emptyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No transactions yet"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

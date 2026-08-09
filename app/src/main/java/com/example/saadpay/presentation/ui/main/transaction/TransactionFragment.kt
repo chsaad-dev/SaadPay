@@ -2,9 +2,10 @@ package com.example.saadpay.presentation.ui.main.transaction
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -29,7 +30,10 @@ import com.itextpdf.layout.property.UnitValue
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.LinkedHashMap
+import java.util.Locale
 
 class TransactionFragment : Fragment() {
 
@@ -64,12 +68,16 @@ class TransactionFragment : Fragment() {
             }
         }
 
-        viewModel.fetchTransactions()
         viewModel.transactions.observe(viewLifecycleOwner) { txns ->
             allTransactions = txns
             val currentFilter = binding.filterSpinner.selectedItem?.toString() ?: "All"
             applyFilter(currentFilter)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchTransactions()
     }
 
     private fun setupRecyclerView() {
@@ -87,7 +95,6 @@ class TransactionFragment : Fragment() {
         )
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         binding.filterSpinner.adapter = spinnerAdapter
-
 
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -198,58 +205,66 @@ class TransactionFragment : Fragment() {
         }
 
         val grouped = groupTransactionsByDate(filtered)
-        adapter.submitGroupedList(grouped)
+        updateDisplayState(grouped)
     }
 
     private fun filterByDateRange() {
         if (startDate != null && endDate != null) {
             val filtered = allTransactions.filter { it.timestamp in startDate!!..endDate!! }
             val grouped = groupTransactionsByDate(filtered)
-            adapter.submitGroupedList(grouped)
+            updateDisplayState(grouped)
         }
     }
 
+    private fun updateDisplayState(groupedList: List<TransactionListItem>) {
+        if (groupedList.isEmpty()) {
+            binding.emptyView.visibility = View.VISIBLE
+            binding.historyRecyclerView.visibility = View.GONE
+        } else {
+            binding.emptyView.visibility = View.GONE
+            binding.historyRecyclerView.visibility = View.VISIBLE
+        }
+        adapter.submitGroupedList(groupedList)
+    }
+
     private fun groupTransactionsByDate(transactions: List<Transaction>): List<TransactionListItem> {
+        if (transactions.isEmpty()) return emptyList()
+
+        val sortedTransactions = transactions.sortedByDescending { it.timestamp }
+
         val todayCal = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
-        val todayDate = todayCal.time
         val yesterdayCal = (todayCal.clone() as Calendar).apply { add(Calendar.DATE, -1) }
-        val yesterdayDate = yesterdayCal.time
+        val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
-        val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-
-        val groupedMap = transactions.groupBy {
-            val date = Date(it.timestamp)
-            val cal = Calendar.getInstance().apply { time = date }
-
-            when {
+        fun getHeaderLabel(timestamp: Long): String {
+            val cal = Calendar.getInstance().apply { timeInMillis = timestamp }
+            return when {
                 cal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR) &&
                         cal.get(Calendar.DAY_OF_YEAR) == todayCal.get(Calendar.DAY_OF_YEAR) -> "Today"
                 cal.get(Calendar.YEAR) == yesterdayCal.get(Calendar.YEAR) &&
                         cal.get(Calendar.DAY_OF_YEAR) == yesterdayCal.get(Calendar.DAY_OF_YEAR) -> "Yesterday"
-                else -> sdf.format(date)
+                else -> dateFormat.format(Date(timestamp))
             }
         }
 
-        fun parseDateLabel(label: String): Date {
-            return when (label) {
-                "Today" -> todayDate
-                "Yesterday" -> yesterdayDate
-                else -> try { sdf.parse(label) ?: Date(0) } catch (e: Exception) { Date(0) }
-            }
+        val groupedMap = LinkedHashMap<String, MutableList<Transaction>>()
+        for (txn in sortedTransactions) {
+            val header = getHeaderLabel(txn.timestamp)
+            groupedMap.getOrPut(header) { mutableListOf() }.add(txn)
         }
 
         val result = mutableListOf<TransactionListItem>()
-        groupedMap.toSortedMap(compareByDescending { parseDateLabel(it) }).forEach { (date, txns) ->
-            result.add(TransactionListItem.Header(date))
-            result.addAll(txns.map { txn ->
+        for ((header, txns) in groupedMap) {
+            result.add(TransactionListItem.Header(header))
+            for (txn in txns) {
                 val labeledTxn = txn.copy(type = getTypeLabel(txn))
-                TransactionListItem.Item(labeledTxn)
-            })
+                result.add(TransactionListItem.Item(labeledTxn))
+            }
         }
         return result
     }
