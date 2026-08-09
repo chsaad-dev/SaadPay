@@ -196,6 +196,7 @@ class FirestoreRepository {
                         null
                     }
                 }.sortedByDescending { it.timestamp }
+                Log.e("TxnCheck", "UID: $uid, Fetched ${txns.size} transactions")
                 onResult(txns)
             }
             .addOnFailureListener { e ->

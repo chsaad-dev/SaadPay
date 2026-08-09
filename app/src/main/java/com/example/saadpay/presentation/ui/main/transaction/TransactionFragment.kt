@@ -67,7 +67,8 @@ class TransactionFragment : Fragment() {
         viewModel.fetchTransactions()
         viewModel.transactions.observe(viewLifecycleOwner) { txns ->
             allTransactions = txns
-            applyFilter(binding.filterSpinner.selectedItem.toString())
+            val currentFilter = binding.filterSpinner.selectedItem?.toString() ?: "All"
+            applyFilter(currentFilter)
         }
     }
 
@@ -209,23 +210,41 @@ class TransactionFragment : Fragment() {
     }
 
     private fun groupTransactionsByDate(transactions: List<Transaction>): List<TransactionListItem> {
+        val todayCal = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val todayDate = todayCal.time
+        val yesterdayCal = (todayCal.clone() as Calendar).apply { add(Calendar.DATE, -1) }
+        val yesterdayDate = yesterdayCal.time
+
+        val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+
         val groupedMap = transactions.groupBy {
             val date = Date(it.timestamp)
             val cal = Calendar.getInstance().apply { time = date }
-            val today = Calendar.getInstance()
-            val yesterday = Calendar.getInstance().apply { add(Calendar.DATE, -1) }
 
             when {
-                cal.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
-                        cal.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) -> "Today"
-                cal.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR) &&
-                        cal.get(Calendar.DAY_OF_YEAR) == yesterday.get(Calendar.DAY_OF_YEAR) -> "Yesterday"
-                else -> SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(date)
+                cal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR) &&
+                        cal.get(Calendar.DAY_OF_YEAR) == todayCal.get(Calendar.DAY_OF_YEAR) -> "Today"
+                cal.get(Calendar.YEAR) == yesterdayCal.get(Calendar.YEAR) &&
+                        cal.get(Calendar.DAY_OF_YEAR) == yesterdayCal.get(Calendar.DAY_OF_YEAR) -> "Yesterday"
+                else -> sdf.format(date)
+            }
+        }
+
+        fun parseDateLabel(label: String): Date {
+            return when (label) {
+                "Today" -> todayDate
+                "Yesterday" -> yesterdayDate
+                else -> try { sdf.parse(label) ?: Date(0) } catch (e: Exception) { Date(0) }
             }
         }
 
         val result = mutableListOf<TransactionListItem>()
-        groupedMap.toSortedMap(compareByDescending { parseDate(it) }).forEach { (date, txns) ->
+        groupedMap.toSortedMap(compareByDescending { parseDateLabel(it) }).forEach { (date, txns) ->
             result.add(TransactionListItem.Header(date))
             result.addAll(txns.map { txn ->
                 val labeledTxn = txn.copy(type = getTypeLabel(txn))
@@ -233,14 +252,6 @@ class TransactionFragment : Fragment() {
             })
         }
         return result
-    }
-
-    private fun parseDate(label: String): Date {
-        return when (label) {
-            "Today" -> Calendar.getInstance().time
-            "Yesterday" -> Calendar.getInstance().apply { add(Calendar.DATE, -1) }.time
-            else -> SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).parse(label) ?: Date(0)
-        }
     }
 
     private fun getTypeLabel(txn: Transaction): String {
