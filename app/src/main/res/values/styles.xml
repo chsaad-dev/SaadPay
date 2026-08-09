@@ -10,6 +10,7 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item>
     </style>
+
     <style name="PinBoxStyle">
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">48dp</item>
@@ -20,6 +21,7 @@
         <item name="android:maxLength">1</item>
         <item name="android:textSize">18sp</item>
     </style>
+
     <style name="BottomNavTextActive" parent="TextAppearance.AppCompat.Caption">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
@@ -30,6 +32,29 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <!-- Fintech Design System Typography & Component Styles -->
+    <style name="TextAppearance.Fintech.Balance" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.Fintech.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.Fintech.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+
+    <style name="TextAppearance.Fintech.Secondary" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
 
 </resources>
-

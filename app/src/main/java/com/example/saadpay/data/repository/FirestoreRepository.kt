@@ -186,7 +186,6 @@ class FirestoreRepository {
 
         db.collection("transactions")
             .whereArrayContains("participants", uid)
-            .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { snapshot ->
                 val txns = snapshot.documents.mapNotNull {
@@ -196,7 +195,7 @@ class FirestoreRepository {
                         Log.e("FirestoreRepository", "Error parsing transaction: ${e.message}")
                         null
                     }
-                }
+                }.sortedByDescending { it.timestamp }
                 onResult(txns)
             }
             .addOnFailureListener { e ->

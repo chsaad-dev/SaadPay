@@ -7,22 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.saadpay.R
 import com.example.saadpay.databinding.FragmentProfileBinding
 import com.example.saadpay.presentation.ui.login.LoginActivity
+import com.example.saadpay.presentation.viewmodel.ProfileViewModel
 import com.example.saadpay.utils.PinPreferenceManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: ProfileViewModel by viewModels()
     private lateinit var pinPreferenceManager: PinPreferenceManager
-    private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,20 +35,16 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (!isAdded || _binding == null) return
 
-        auth = FirebaseAuth.getInstance()
-        firestore = FirebaseFirestore.getInstance()
         pinPreferenceManager = PinPreferenceManager(requireContext())
 
         binding.profileImageView.setImageResource(R.drawable.ic_person)
 
-        auth.currentUser?.uid?.let { uid ->
-            firestore.collection("users").document(uid).get()
-                .addOnSuccessListener { doc ->
-                    if (!isAdded || _binding == null) return@addOnSuccessListener
-                    binding.profileNameTextView.text = doc.getString("name") ?: "N/A"
-                    binding.profileEmailTextView.text = doc.getString("email") ?: "N/A"
-                }
+        viewModel.userProfile.observe(viewLifecycleOwner) { user ->
+            if (!isAdded || _binding == null || user == null) return@observe
+            binding.profileNameTextView.text = user.name.ifEmpty { "N/A" }
+            binding.profileEmailTextView.text = user.email.ifEmpty { "N/A" }
         }
+        viewModel.fetchUserProfile()
 
         val isEnabled = pinPreferenceManager.isBiometricEnabled()
         binding.biometricSwitch.isChecked = isEnabled
@@ -106,7 +102,7 @@ class ProfileFragment : Fragment() {
 
         binding.logoutCard.setOnClickListener {
             if (!isAdded || _binding == null) return@setOnClickListener
-            auth.signOut()
+            FirebaseAuth.getInstance().signOut()
             startActivity(Intent(requireContext(), LoginActivity::class.java))
             requireActivity().finish()
         }

@@ -1,96 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sendMoneyRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="@color/white">
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="20dp">
 
+        <!-- Top Header Row -->
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="SaadPay"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/primaryColor"
-            android:layout_marginBottom="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/TextAppearance.Fintech.Title"
+            android:layout_marginBottom="16dp" />
 
         <TextView
-            android:text="Send Money"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Send Money"
+            style="@style/TextAppearance.Fintech.Title"
+            android:layout_marginBottom="24dp" />
 
+        <!-- Recipient Email Field (Surface-filled style) -->
         <EditText
             android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_input_surface"
             android:hint="Recipient Email"
             android:inputType="textEmailAddress"
-            android:background="@drawable/bg_input_rounded_selector"
-            android:textColor="@color/black"
-            android:textColorHint="#888888"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:textSize="16sp" />
 
+        <!-- Enter Amount Field (Surface-filled style) -->
         <EditText
             android:id="@+id/amountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_input_surface"
             android:hint="Enter Amount"
             android:inputType="numberDecimal"
-            android:background="@drawable/bg_input_rounded_selector"
-            android:textColor="@color/black"
-            android:textColorHint="#888888"
-            android:padding="16dp"
-            android:layout_marginBottom="24dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:textSize="16sp" />
 
-        <Button
+        <!-- Send Button (Full-width Primary Blue CTA) -->
+        <FrameLayout
             android:id="@+id/sendButton"
-            android:text="Send"
-            android:textAllCaps="false"
-            android:backgroundTint="@color/primaryColor"
-            android:textColor="@android:color/white"
-            android:elevation="6dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp" />
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_button_primary"
+            android:clickable="true"
+            android:focusable="true">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Send"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!-- Progress Bar -->
         <ProgressBar
             android:id="@+id/progressBar"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
 
+        <!-- Security Tips Header & ViewPager -->
         <TextView
-            android:text="Swipe to View More"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="2dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="Swipe to View More Tips"
+            style="@style/TextAppearance.Fintech.Body" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/tipsViewPager"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="220dp"
             android:clipToPadding="false"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp" />
     </LinearLayout>
 </ScrollView>

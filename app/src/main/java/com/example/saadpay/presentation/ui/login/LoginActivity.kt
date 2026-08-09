@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.saadpay.data.model.User
-import com.example.saadpay.data.repository.FirestoreRepository
 import com.example.saadpay.databinding.ActivityLoginBinding
 import com.example.saadpay.presentation.ui.main.MainActivity
 import com.example.saadpay.presentation.ui.register.RegisterActivity
 import com.example.saadpay.presentation.viewmodel.LoginViewModel
-import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
@@ -37,30 +34,12 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
-        viewModel.loginSuccess.observe(this) { success ->
-            if (success) {
-                val user = FirebaseAuth.getInstance().currentUser
-                if (user != null) {
-                    val uid = user.uid
-                    val name = user.displayName ?: "Unknown"
-                    val email = user.email ?: ""
-
-                    val newUser = User(
-                        uid = uid,
-                        name = name,
-                        email = email,
-                        balance = 0.0
-                    )
-
-                    FirestoreRepository().saveUserIfNotExists(newUser) { saved ->
-                        if (saved) {
-                            startActivity(Intent(this, MainActivity::class.java))
-                            finish()
-                        } else {
-                            Toast.makeText(this, "Failed to sync user data", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
+        viewModel.userSyncComplete.observe(this) { saved ->
+            if (saved) {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                Toast.makeText(this, "Failed to sync user data", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -73,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
                         .setTitle("Email Not Verified")
                         .setMessage("Would you like to resend the verification email?")
                         .setPositiveButton("Resend") { _, _ ->
-                            viewModel.resendVerificationEmail { success, message ->
+                            viewModel.resendVerificationEmail { _, message ->
                                 Toast.makeText(this, message, Toast.LENGTH_LONG).show()
                             }
                         }
@@ -82,6 +61,5 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 }

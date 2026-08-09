@@ -1,30 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#E0F2FF</color>
-    <color name="ic_launcher_foreground">#0288D1</color>
+    <!-- Fintech Design System Tokens -->
+    <color name="primary">#0052FF</color>
+    <color name="primary_dark">#0040CC</color>
+    <color name="background">#FFFFFF</color>
+    <color name="surface">#F5F6FA</color>
+    <color name="text_primary">#0A0A0A</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="success">#00C48C</color>
+    <color name="error">#FF3B30</color>
+    <color name="border">#E5E7EB</color>
 
-    <color name="primaryColor">#0288D1</color>
-    <color name="primaryDarkColor">#01579B</color>
-    <color name="md_theme_background">#F5F5F5</color>
-    <color name="md_theme_surface">#FFFFFF</color>
-    <color name="md_theme_secondary">#5C6BC0</color>
+    <!-- Legacy / Alias Mappings -->
+    <color name="ic_launcher_background">#E0F2FF</color>
+    <color name="ic_launcher_foreground">#0052FF</color>
+
+    <color name="primaryColor">#0052FF</color>
+    <color name="primaryDarkColor">#0040CC</color>
+    <color name="md_theme_background">#FFFFFF</color>
+    <color name="md_theme_surface">#F5F6FA</color>
+    <color name="md_theme_secondary">#0052FF</color>
     <color name="md_theme_secondaryContainer">#E8EAF6</color>
-    <color name="colorPrimaryDark">#1976D2</color>
-    <color name="light_gray">#F5F5F5</color>
-    <color name="accentColor">#03A9F4</color>
-    <color name="lightBlue">#4A90E2</color>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="gray">#9E9E9E</color>
-    <color name="green">#4CAF50</color>
-    <color name="red">#F44336</color>
+    <color name="colorPrimaryDark">#0040CC</color>
+    <color name="light_gray">#F5F6FA</color>
+    <color name="accentColor">#0052FF</color>
+    <color name="lightBlue">#0052FF</color>
+    <color name="black">#0A0A0A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#6B7280</color>
+    <color name="green">#00C48C</color>
+    <color name="red">#FF3B30</color>
     <color name="yellow">#FFEB3B</color>
+    <color name="light_blue">#4FC3F7</color>
+    <color name="blue">#0052FF</color>
+
+    <!-- Legacy Material Colors -->
+    <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#6200EE</color>
     <color name="purple_700">#3700B3</color>
     <color name="teal_200">#03DAC5</color>
-    <color name="light_blue">#4FC3F7</color>
-    <color name="blue">#0288D1</color>
-
+    <color name="teal_700">#FF018786</color>
 </resources>

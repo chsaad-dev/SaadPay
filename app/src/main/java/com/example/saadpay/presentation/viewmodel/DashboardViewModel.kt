@@ -3,8 +3,12 @@ package com.example.saadpay.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.saadpay.data.repository.FirestoreRepository
+import com.example.saadpay.domain.model.Transaction
 import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DashboardViewModel : ViewModel() {
 
@@ -15,6 +19,9 @@ class DashboardViewModel : ViewModel() {
 
     private val _balance = MutableLiveData<Double>()
     val balance: LiveData<Double> get() = _balance
+
+    private val _recentTransactions = MutableLiveData<List<Transaction>>()
+    val recentTransactions: LiveData<List<Transaction>> get() = _recentTransactions
 
     private val _error = MutableLiveData<Boolean>()
     val error: LiveData<Boolean> get() = _error
@@ -32,8 +39,16 @@ class DashboardViewModel : ViewModel() {
         }
     }
 
+    fun fetchRecentTransactions() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.fetchTransactionsForCurrentUser { list ->
+                _recentTransactions.postValue(list.take(3))
+            }
+        }
+    }
+
     fun fetchCurrentUser() {
-        repository.getCurrentUser { user, e ->
+        repository.getCurrentUser { user, _ ->
             if (user != null) {
                 _userName.value = user.name
                 _balance.value = user.balance
@@ -47,5 +62,4 @@ class DashboardViewModel : ViewModel() {
         super.onCleared()
         repository.removeListener(listenerRegistration)
     }
-
 }
