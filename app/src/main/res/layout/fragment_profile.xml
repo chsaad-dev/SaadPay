@@ -3,7 +3,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/surface">
 
     <LinearLayout
         android:id="@+id/profileRoot"
@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/profileImageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/ic_person"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:scaleType="centerCrop"
             android:background="@drawable/bg_profile_circle"
             android:padding="4dp" />
@@ -29,52 +29,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SaadPay User"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
+            style="@style/TextAppearance.Fintech.Title"
+            android:layout_marginBottom="4dp" />
 
         <TextView
             android:id="@+id/profileEmailTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="saadpayuser@example.com"
-            android:textSize="18sp"
-            android:textColor="@color/primaryColor"
-            android:layout_marginBottom="15dp" />
+            style="@style/TextAppearance.Fintech.Secondary"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="12dp" />
 
         <TextView
             android:id="@+id/fingerprintStatusTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fingerprint is enabled ✅"
-            android:textSize="15sp"
-            android:textColor="@color/gray"
-            android:layout_marginBottom="6dp" />
+            style="@style/TextAppearance.Fintech.Secondary"
+            android:textColor="@color/success"
+            android:layout_marginBottom="32dp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card_view:cardCornerRadius="16dp"
-            card_view:cardElevation="1dp"
-            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="20dp"
+            card_view:cardElevation="0dp"
+            card_view:cardBackgroundColor="@color/background"
             android:layout_marginBottom="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="6dp"
+                android:padding="8dp"
                 android:gravity="center_vertical"
-                android:layout_marginStart="12dp"
-                >
+                android:layout_marginStart="12dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="👉 Enable Fingerprint"
-                    android:textSize="17sp"
-                    android:textColor="@color/black" />
+                    style="@style/TextAppearance.Fintech.Body" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/biometricSwitch"
@@ -88,17 +85,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            card_view:cardCornerRadius="16dp"
-            card_view:cardElevation="1dp"
-            card_view:cardBackgroundColor="@color/white">
+            card_view:cardCornerRadius="20dp"
+            card_view:cardElevation="0dp"
+            card_view:cardBackgroundColor="@color/background">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="🔐 Change PIN"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:padding="16dp" />
+                style="@style/TextAppearance.Fintech.Body"
+                android:padding="20dp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -106,17 +102,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            card_view:cardCornerRadius="16dp"
-            card_view:cardElevation="1dp"
-            card_view:cardBackgroundColor="@color/white">
+            card_view:cardCornerRadius="20dp"
+            card_view:cardElevation="0dp"
+            card_view:cardBackgroundColor="@color/background">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="❓ Forgot PIN"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:padding="16dp" />
+                style="@style/TextAppearance.Fintech.Body"
+                android:padding="20dp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -124,52 +119,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            card_view:cardCornerRadius="16dp"
-            card_view:cardElevation="1dp"
-            card_view:cardBackgroundColor="@color/white">
+            card_view:cardCornerRadius="20dp"
+            card_view:cardElevation="0dp"
+            card_view:cardBackgroundColor="@color/background">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="📧 Help &amp; Support"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:padding="16dp" />
+                style="@style/TextAppearance.Fintech.Body"
+                android:padding="20dp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/termsPrivacyCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            card_view:cardCornerRadius="16dp"
-            card_view:cardElevation="1dp"
-            card_view:cardBackgroundColor="@color/white">
+            android:layout_marginBottom="24dp"
+            card_view:cardCornerRadius="20dp"
+            card_view:cardElevation="0dp"
+            card_view:cardBackgroundColor="@color/background">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="📄 Terms &amp; Privacy"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:padding="16dp" />
+                style="@style/TextAppearance.Fintech.Body"
+                android:padding="20dp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/logoutCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card_view:cardCornerRadius="16dp"
-            card_view:cardElevation="1dp"
-            card_view:cardBackgroundColor="@color/red">
+            android:layout_marginBottom="16dp"
+            card_view:cardCornerRadius="20dp"
+            card_view:cardElevation="0dp"
+            card_view:cardBackgroundColor="#FFF0F0">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="🚪 Logout"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:padding="16dp" />
+                style="@style/TextAppearance.Fintech.Body"
+                android:textColor="@color/error"
+                android:padding="20dp" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -177,12 +171,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Version 1.1.2"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:layout_marginTop="12dp"
-            android:textStyle="italic"
+            style="@style/TextAppearance.Fintech.Secondary"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"/>
-
 
     </LinearLayout>
 </ScrollView>
