@@ -65,6 +65,7 @@ Note: To install, enable "Install from Unknown Sources" in your Android device s
 **Muhammad Saad**
 * Email: saadw7751@gmail.com
 * GitHub: [chsaad-dev](https://github.com/chsaad-dev)
+* Portfolio: [saadev.site/](https://saadev.site/)
 
 ## License and Usage Restrictions
 
